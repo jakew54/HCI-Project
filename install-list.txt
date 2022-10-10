@@ -1,0 +1,8 @@
+npm install react-router-dom --save
+npm install react-icons --save
+npm install styled-components --save
+npm install react-bootstrap --save
+npm install react --save
+npm install react-toastify --save
+npm install @material-ui/core --force --save
+npm install @mui/material @emotion/react @emotion/styled --force --save
