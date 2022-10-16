@@ -21,11 +21,13 @@ const GroupSize = () => {
 
 
   const handleReq = async () => {
-    fetch('http://localhost:8000/groupsize', {
+    const response = await fetch('http://localhost:8000/groupsize', {
       method: 'POST',
       body: JSON.stringify(jsonGroupSizes)
-    })
-    navigate("/Filters");
+    });
+    const data = await response.json();
+    console.log(data);
+    //navigate("/Filters");
   }
 
   return (
