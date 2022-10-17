@@ -1,0 +1,16 @@
+.headerFilters{
+    text-align: center;
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 0px 10px;
+    margin-top: -20px;
+    font-size: 1.3rem;
+}
+
+ul.a{
+    list-style-type: circle;
+    text-align: left;
+    display:inline-flexbox;
+    justify-content: center;
+    font-size: 1.3rem;
+}

@@ -20,10 +20,12 @@ import Time from './pages/FilterPages/Time';
 
 function App() {
     return (
+        <div className='background-App'>
         <Router>
             <Navbar />
             <Routes>
                 <Route exact path='/' element={<Home />} />
+                <Route path='/Home' element={<Home />} />
                 <Route path='/Filters' element={<Filters />} />
                 <Route path='/Groups' element={<Groups />} />
                 <Route path='/Login' element={<Login />} />
@@ -36,6 +38,7 @@ function App() {
                 <Route path='/Class' element={<Class />} />
             </Routes>
         </Router>
+        </div>
     );
 }
 

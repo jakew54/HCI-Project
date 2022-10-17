@@ -3,7 +3,7 @@ import { NavLink as Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Nav = styled.nav`
-  background: #ffb3ff;
+  background: #0021A5;
   height: 85px;
   display: flex;
   justify-content: space-between;
@@ -11,16 +11,38 @@ export const Nav = styled.nav`
   z-index: 12;
 `;
 
+export const StudyBuddy = styled.div`
+display: flex;
+align-items: center;
+margin-left: -450px;
+margin-right: 120px;
+font: 5vh Arial;
+font-weight: bold;
+-webkit-text-stroke-width: 2px;
+-webkit-text-stroke-color: black;
+color: #FA4616;
+white-space: nowrap; */
+@media screen and (max-width: 768px) {
+  display: none;
+}
+`;
+
+
 export const NavLink = styled(Link)`
-  color: #808080;
+  color: #ffffff;
   display: flex;
+  font: 400 24px Arial;
+  font-weight: bold;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  border = 1vh;
   align-items: center;
   text-decoration: none;
   padding: 0 1rem;
   height: 100%;
   cursor: pointer;
   &.active {
-    color: #4d4dff;
+    color: #FA4616 ;
   }
 `;
 
