@@ -15,3 +15,4 @@ class Student(Base):
     group_size = Column(Integer)
     language = Column(String)
     study_role = Column(String)
+    picture = Column(String)

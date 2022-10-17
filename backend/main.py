@@ -29,6 +29,9 @@ class Filter:
         self.languages = None
         self.study_roles = None
 
+    def clear_filters(self):
+        self.__init__()
+
 
 class StudentRequests(BaseModel):
     name: str
@@ -40,6 +43,7 @@ class StudentRequests(BaseModel):
     group_size: int
     language: str
     study_role: str
+    picture: str
 
 
 class StudentsResponse(BaseModel):
@@ -54,7 +58,7 @@ def add_people_to_db(db):
         for index, row in users.iterrows():
             new_student = Student(name=row['name'], time=row['time'], major=row['major'], class_name=row['class_name'],
                                   place_type=row['place_type'], place=row['place'], group_size=row['group_size'], language=row['language'],
-                                  study_role=row['study_role'])
+                                  study_role=row['study_role'], picture=row['picture'])
             db.add(new_student)
         db.commit()
 
@@ -141,6 +145,7 @@ def response(students):
             group_size=student.group_size,
             language=student.language,
             study_role=student.study_role,
+            picture=student.picture
         )
         for student in students.all()
     ]
@@ -217,6 +222,13 @@ def study_roles_filter(study_roles, db: Session = Depends(get_db)):
 
 @app.get("/done_filtering", response_model=StudentsResponse)
 def done_filtering(db: Session = Depends(get_db)):
+    students = get_filtered_students(db)
+    return response(students)
+
+
+@app.get("/clear_filters", response_model=StudentsResponse)
+def done_filtering(db: Session = Depends(get_db)):
+    main_filter.clear_filters()
     students = get_filtered_students(db)
     return response(students)
 
