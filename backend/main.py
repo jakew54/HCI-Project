@@ -6,12 +6,15 @@ from models import Student
 from sqlalchemy.orm import Session
 import pandas as pd
 from datetime import datetime
+from typing import List
+from fastapi.middleware.cors import CORSMiddleware
 
-MAJOR_LIST = ['Computer Science', 'Biology', 'Philosophy', 'Electrical Engineering']
+MAJOR_LIST = ["Computer Science", "Math", "Biology", "Political Science", "Chemistry", "Physics"]
 CLASS_NAME_LIST = ['Data Bases', 'Calc 1', 'Statistics', 'Introduction to Computer Science']
 PLACE_TYPE_LIST = ['Library', 'Outside', 'Online', 'Study Room']
-LANGUAGE_LIST = ['English', 'Spanish', 'Hindi']
-STUDY_ROLE = ['Teacher', 'Student', 'Study-Buddy']
+LANGUAGE_LIST = ["English", "Spanish", "Hindi", "Japanese", "French", "German"]
+STUDY_ROLE = ["Tutor", "Student", "Study-Buddy", "Expert", "Novice"]
+ORIGINS = ["http://localhost:3000"]
 
 
 class Filter:
@@ -27,10 +30,24 @@ class Filter:
         self.study_roles = None
 
 
-main_filter = Filter()
+class StudentRequests(BaseModel):
+    name: str
+    time: int
+    major: str
+    class_name: str
+    place_type: str
+    place: str
+    group_size: int
+    language: str
+    study_role: str
 
 
-def add_people_to_DB(db):
+class StudentsResponse(BaseModel):
+    students: List[StudentRequests]
+    number_of_students: int
+
+
+def add_people_to_db(db):
     students = db.query(Student)
     if not students.count():
         users = pd.read_csv('Users.csv')
@@ -44,27 +61,6 @@ def add_people_to_DB(db):
 
 def get_dict(lst):
     return dict.fromkeys(lst, 0)
-
-
-app = FastAPI()
-models.Base.metadata.create_all(bind=engine)
-
-
-class Student_Request(BaseModel):
-    name: str
-    time: int
-    major: str
-    class_name: str
-    place_type: str
-    place: str
-    group_size: int
-    language: str
-    study_role: str
-
-
-#
-# class Filters(BaseModel):
-#     min_time: int
 
 
 def get_db():
@@ -84,6 +80,7 @@ def apply_checkbox_filter(filter_lst, general_lst, students, query_name):
     current_dict = get_dict(general_lst)
     for key in filter_lst:
         current_dict[key] = 1
+    # print(current_dict)
     for key, value in current_dict.items():
         if value == 0:
             if query_name == 'Major':
@@ -108,13 +105,13 @@ def get_filtered_students(db):
     if main_filter.max_time:
         students = students.filter(Student.time <= (get_current_time() + int(main_filter.max_time) * 100))
 
-    if main_filter.majors:
+    if main_filter.majors and main_filter.majors[0]:
         students = apply_checkbox_filter(main_filter.majors, MAJOR_LIST, students, 'Major')
 
-    if main_filter.class_names:
+    if main_filter.class_names and main_filter.class_names[0]:
         students = apply_checkbox_filter(main_filter.class_names, CLASS_NAME_LIST, students, 'Class Name')
 
-    if main_filter.place_types:
+    if main_filter.place_types and main_filter.place_types[0]:
         students = apply_checkbox_filter(main_filter.place_types, PLACE_TYPE_LIST, students, 'Place Type')
 
     if main_filter.min_group_size:
@@ -123,196 +120,133 @@ def get_filtered_students(db):
     if main_filter.max_group_size:
         students = students.filter(Student.group_size <= main_filter.max_group_size)
 
-    if main_filter.languages:
+    if main_filter.languages and main_filter.languages[0]:
         students = apply_checkbox_filter(main_filter.languages, LANGUAGE_LIST, students, 'Language')
 
-    if main_filter.study_roles:
+    if main_filter.study_roles and main_filter.study_roles[0]:
         students = apply_checkbox_filter(main_filter.study_roles, STUDY_ROLE, students, 'Study Role')
 
     return students
 
 
-@app.get("/time_filter")
+def response(students):
+    students_list = [
+        StudentRequests(
+            name=student.name,
+            time=student.time,
+            major=student.major,
+            class_name=student.class_name,
+            place_type=student.place_type,
+            place=student.place,
+            group_size=student.group_size,
+            language=student.language,
+            study_role=student.study_role,
+        )
+        for student in students.all()
+    ]
+    return StudentsResponse(students=students_list, number_of_students=len(students_list))
+
+
+app = FastAPI()
+
+main_filter = Filter()
+
+models.Base.metadata.create_all(bind=engine)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+add_people_to_db(SessionLocal())
+
+
+@app.get("/group_size_filter", response_model=StudentsResponse)
+def group_size_filter(min_group_size: int, max_group_size: int, db: Session = Depends(get_db)):
+    main_filter.min_group_size = min_group_size
+    main_filter.max_group_size = max_group_size
+    students = get_filtered_students(db)
+    return response(students)
+
+
+@app.get("/time_filter", response_model=StudentsResponse)
 def time_filter(min_time, max_time, db: Session = Depends(get_db)):
     main_filter.min_time = min_time
     main_filter.max_time = max_time
     students = get_filtered_students(db)
-    return {"student number": students.count()}
+    return response(students)
 
 
-@app.get("/major_filter")
+@app.get("/major_filter", response_model=StudentsResponse)
 def major_filter(majors, db: Session = Depends(get_db)):
-    main_filter.majors = majors
+    main_filter.majors = majors.split(',')
     students = get_filtered_students(db)
-    return {"student number": students.count()}
+    return response(students)
 
 
-@app.get("/class_filter")
+@app.get("/class_filter", response_model=StudentsResponse)
 def class_filter(classes, db: Session = Depends(get_db)):
-    main_filter.class_names = classes
+    main_filter.class_names = classes.split(',')
     students = get_filtered_students(db)
-    return {"student number": students.count()}
+    return response(students)
 
 
-@app.get("/place_type_filter")
+@app.get("/place_type_filter", response_model=StudentsResponse)
 def place_type_filter(place_types, db: Session = Depends(get_db)):
-    main_filter.place_types = place_types
+    main_filter.place_types = place_types.split(',')
     students = get_filtered_students(db)
-    return {"student number": students.count()}
+    return response(students)
 
 
-@app.get("/groupsize")
-def group_size_filter(min_group_size, max_group_size, db: Session = Depends(get_db)):
-    main_filter.min_group_size = min_group_size
-    main_filter.max_group_size = max_group_size
-    students = get_filtered_students(db)
-    print("blabla", students.count())
-    return {"student number": students.count()}
-
-
-@app.get("/languages_filter")
+@app.get("/languages_filter", response_model=StudentsResponse)
 def languages_filter(languages, db: Session = Depends(get_db)):
-    main_filter.languages = languages
+    main_filter.languages = languages.split(',')
     students = get_filtered_students(db)
-    return {"student number": students.count()}
+    return response(students)
 
 
-@app.get("/study_roles_filter")
+@app.get("/study_roles_filter", response_model=StudentsResponse)
 def study_roles_filter(study_roles, db: Session = Depends(get_db)):
-    main_filter.study_roles = study_roles
+    main_filter.study_roles = study_roles.split(',')
     students = get_filtered_students(db)
-    return {"student number": students.count()}
+    return response(students)
 
 
-@app.get("/done_filtering")
+@app.get("/done_filtering", response_model=StudentsResponse)
 def done_filtering(db: Session = Depends(get_db)):
-    return {"data": get_filtered_students(db)}
+    students = get_filtered_students(db)
+    return response(students)
 
+# @app.post("/student")
+# async def create_student(student_request: StudentRequests, db: Session = Depends(get_db)):
+#     """
+#     add one or more tickers to the database
+#     background task to use yfinance and load key statistics
+#     """
+#
+#     student = Student()
+#     student.name = student_request.name
+#     student.time = student_request.time
+#     student.major = student_request.major
+#     student.place_type = student_request.place_type
+#     student.place = student_request.place
+#     student.class_name = student_request.class_name
+#     student.group_size = student_request.group_size
+#     student.language = student_request.language
+#     student.study_role = student_request.study_role
+#
+#     db.add(student)
+#     db.commit()
+#     print("done")
+#
+#     return {
+#         "code": "success",
+#     }
 
-@app.post("/student")
-async def create_student(student_request: Student_Request, db: Session = Depends(get_db)):
-    """
-    add one or more tickers to the database
-    background task to use yfinance and load key statistics
-    """
-
-    student = Student()
-    student.name = student_request.name
-    student.time = student_request.time
-    student.major = student_request.major
-    student.place_type = student_request.place_type
-    student.place = student_request.place
-    student.class_name = student_request.class_name
-    student.group_size = student_request.group_size
-    student.language = student_request.language
-    student.study_role = student_request.study_role
-
-    db.add(student)
-    db.commit()
-    print("done")
-
-    return {
-        "code": "success",
-    }
-
-
-add_people_to_DB(SessionLocal())
-
-# class Filter:
-#     def __init__(self):
-
-
-# def get_dict(lst):
-#     return dict.fromkeys(lst, 0)
 #
-#
-# app = FastAPI()
-#
-# models.Base.metadata.create_all(bind=engine)
-#
-#
-# class Student_Request(BaseModel):
-#     name: str
-#     time: int
-#     major: str
-#     class_name: str
-#     place_type: str
-#     place: str
-#     group_size: int
-#     language: str
-#     study_role: str
-#
-#
-# class Filters(BaseModel):
-#     min_time: int
-#
-#
-# def get_db():
-#     try:
-#         db = SessionLocal()
-#         yield db
-#     finally:
-#         db.close()
-#
-#
-# def get_current_time():
-#     current_time = datetime.now()
-#     return int(str(current_time.hour) + str(current_time.minute))
-#
-#
-# def apply_checkbox_filter(filter_lst, general_lst, students, query_name):
-#     current_dict = get_dict(general_lst)
-#     for key in filter_lst:
-#         current_dict[key] = 1
-#     for key, value in current_dict.items():
-#         if value == 0:
-#             if query_name == 'Major':
-#                 students = students.filter(Student.major != key)
-#             elif query_name == 'Class Name':
-#                 students = students.filter(Student.class_name != key)
-#             elif query_name == 'Place Type':
-#                 students = students.filter(Student.place_type != key)
-#             elif query_name == 'Language':
-#                 students = students.filter(Student.language != key)
-#             elif query_name == 'Study Role':
-#                 students = students.filter(Student.study_role != key)
-#     return students
-#
-#
-# @app.get("/apply_filters")
-# def get_number_of_filtered_students(min_time=None, max_time=None, majors=None, class_names=None, place_types=None, min_group_size=None,
-#                                     max_group_size=None, languages=None, study_roles=None,
-#                                     db: Session = Depends(get_db)):
-#     students = db.query(Student)
-#
-#     if min_time:
-#         students = students.filter(Student.time >= (get_current_time() + int(min_time) * 100))
-#
-#     if max_time:
-#         students = students.filter(Student.time <= (get_current_time() + int(max_time) * 100))
-#
-#     if majors:
-#         students = apply_checkbox_filter(majors, MAJOR_LIST, students, 'Major')
-#
-#     if class_names:
-#         students = apply_checkbox_filter(class_names, CLASS_NAME_LIST, students, 'Class Name')
-#
-#     if place_types:
-#         students = apply_checkbox_filter(place_types, PLACE_TYPE_LIST, students, 'Place Type')
-#
-#     if min_group_size:
-#         students = students.filter(Student.group_size >= min_group_size)
-#
-#     if max_group_size:
-#         students = students.filter(students.group_size <= max_group_size)
-#
-#     if languages:
-#         students = apply_checkbox_filter(languages, LANGUAGE_LIST, students, 'Language')
-#
-#     if study_roles:
-#         students = apply_checkbox_filter(study_roles, STUDY_ROLE, students, 'Study Role')
-#
-#     return {"student number": students.count()}
 #
 #
 # # @app.get("/")
