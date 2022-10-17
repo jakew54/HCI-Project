@@ -1,34 +1,30 @@
-import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import React, { useState, useCallback } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import RangeSlider from '../../component/rangeSliders/rangeSlider.js';
+import { RangeSlider, Button } from '@mantine/core';
+import axios from 'axios';
+
 
 const GroupSize = () => {
   const navigate = useNavigate();
   const notify = () => toast("Filters successfully applied!");
 
-  const [groupSizes, setGroupSizes] = useState([]);
-  //const groupSizes = [];
+  const [rangeValue, setRangeValue] = useState([0, 10]);
 
-  var jsonGroupSizes = {
-    "groupSizes": {
-      "min": groupSizes[0],
-      "max": groupSizes[1]
-    }
-  }
-
-
-  const handleReq = async () => {
-    const response = await fetch('http://localhost:8000/groupsize', {
-      method: 'POST',
-      body: JSON.stringify(jsonGroupSizes)
-    });
-    const data = await response.json();
-    console.log(data);
-    //navigate("/Filters");
-  }
+  const handleReq = useCallback(async () => {
+   if (rangeValue.length === 2) {
+      const url = new URL('http://127.0.0.1:8000/group_size_filter');
+      const searchParams = new URLSearchParams({
+            "min_group_size": rangeValue[0] / 10,
+            "max_group_size": rangeValue[1] / 10,
+      });
+      url.search = searchParams.toString();
+      const response = await axios.get(url);
+      console.log(response.data);
+        //navigate("/Filters");
+      }
+  }, [rangeValue]);
 
   return (
     <div>
@@ -36,9 +32,9 @@ const GroupSize = () => {
         <h1> Enter desired group size </h1>
       </div>
 
-      <RangeSlider min={1} max={10} onChange={({ min, max }) => setGroupSizes([min, max])} />
+       <RangeSlider value={rangeValue} onChange={setRangeValue} step={10} />
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
-        <Button onClick={handleReq}>Apply and return to Filters</Button>
+        <Button onClick={() => handleReq()}>Apply and return to Filters</Button>
       </div>
 
       <ToastContainer />
