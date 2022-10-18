@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
 import "../Styles/Filters.css";
@@ -12,7 +12,7 @@ import { type } from '@testing-library/user-event/dist/type';
 const Filters = () => {
     const navigate = useNavigate();
     const [currGroupNum, setCurrGroupNum] = useState();
-    //const [currentStudents, setCurrentStudents] = useState([])
+    const [currentStudents, setCurrentStudents] = useState([])
 
 
     const getGroupNum = useCallback(async () => {
@@ -20,7 +20,7 @@ const Filters = () => {
         const response = await axios.get(url);
         console.log(response.data);
         setCurrGroupNum(response.data.number_of_students);
-        //setCurrentStudents(response.data.students);
+        setCurrentStudents(response.data.students);
     });
 
     const clearFilters = useCallback(async () => {
@@ -31,7 +31,14 @@ const Filters = () => {
         //setCurrentStudents(response.data.students);
     });
 
-    getGroupNum(); //set flag to make it only call a few times
+    useEffect(() => {
+        getGroupNum(); //set flag to make it only call a few times
+    }, []);
+
+    useEffect(() => {
+        console.log(currentStudents);
+    }, [currentStudents]);
+
     return (
         <>
             <div className="headerFilters">

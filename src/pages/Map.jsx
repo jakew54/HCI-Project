@@ -2,7 +2,7 @@ import { React, useState, useCallback } from 'react';
 import { Button } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
 import '../Styles/Map.css';
-import mapPic from '../Styles/hci_map.png';
+import mapPic from '../Styles/hci_map_with_pc.png';
 import { Text, TextInput, BackgroundImage, Center, Box, Checkbox, RangeSlider, Container } from '@mantine/core';
 import { useListState, randomId } from '@mantine/hooks';
 import axios from 'axios';
@@ -63,7 +63,14 @@ const Map = () => {
     const [groupSizeValue, setGroupSizeValue] = useState([0, 10]);
     const [timeValue, setTimeValue] = useState([0, 10]);
     const [currGroupNum, setCurrGroupNum] = useState();
-    const [isShown, setIsShown] = useState(false);
+
+    //hover functionality for lcoations
+    const [isShownLibWest, setIsShownLibWest] = useState(false);
+    const [isShownMarston, setIsShownMarston] = useState(false);
+    const [isShownComputer, setIsShownComputer] = useState(false);
+    const [isShownPlaza, setIsShownPlaza] = useState(false);
+
+
     const navigate = useNavigate();
 
     const [roles1, handleRoles1] = useListState(initialRoles1);
@@ -297,17 +304,32 @@ const Map = () => {
                     <BackgroundImage src={mapPic} radius="xs">
                         <Center style={{ height: 980 }}>
                             <h1>{currGroupNum}</h1>
-                            <div>
-                                <img onMouseEnter={() => setIsShown(true)}
-                                    onMouseLeave={() => setIsShown(false)} src={pinSmall}
-                                    style={{ position:'absolute', marginLeft:'50vh', marginTop: '-47vh' }} />
-                            </div>
-                            <div>
-                                <img onMouseEnter={() => setIsShown(true)}
-                                    onMouseLeave={() => setIsShown(false)} src={pinSmall}
-                                    style={{ marginLeft: '45vh', marginTop: '-89vh' }} />
-                            </div>
                         </Center>
+                        <div>
+                            <img onMouseEnter={() => setIsShownLibWest(true)}
+                                onMouseLeave={() => setIsShownLibWest(false)} src={pinSmall}
+                                style={{ position: 'absolute', left: '104.5vh', top: '11.5vh', }} />
+                        </div>
+                        {isShownLibWest && (
+                                <div style={{ position: 'absolute', left: '109.5vh', top: '11.5vh', }}>
+                                    I'll appear when you hover over the button.
+                                </div>
+                            )}
+                        <div>
+                            <img onMouseEnter={() => setIsShownPlaza(true)}
+                                onMouseLeave={() => setIsShownPlaza(false)} src={pinSmall}
+                                style={{ position: 'absolute', left: '102.5vh', top: '30vh', }} />
+                        </div>
+                        <div>
+                            <img onMouseEnter={() => setIsShownComputer(true)}
+                                onMouseLeave={() => setIsShownComputer(false)} src={pinSmall}
+                                style={{ position: 'absolute', left: '136vh', top: '79vh', }} />
+                        </div>
+                        <div>
+                            <img onMouseEnter={() => setIsShownMarston(true)}
+                                onMouseLeave={() => setIsShownMarston(false)} src={pinSmall}
+                                style={{ position: 'absolute', left: '89vh', top: '68vh', }} />
+                        </div>
                     </BackgroundImage>
                 </Box>
             </div>
