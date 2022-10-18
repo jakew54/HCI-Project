@@ -16,6 +16,7 @@ import Major from './pages/FilterPages/Major';
 import Place from './pages/FilterPages/Place';
 import StudyRole from './pages/FilterPages/StudyRole';
 import Time from './pages/FilterPages/Time';
+import Map from './pages/Map';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
                 <Route path='/StudyRole' element={<StudyRole />} />
                 <Route path='/Time' element={<Time />} />
                 <Route path='/Class' element={<Class />} />
+                <Route path='/Map' element={<Map />} />
             </Routes>
         </Router>
         </div>

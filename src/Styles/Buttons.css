@@ -54,3 +54,17 @@ button {
     width: 2vh;
     height: 1vh;
 }
+
+
+.buttonCool {
+    background-color: #0021A5;
+    color: white;
+    font-size: 14px;
+    padding: 2px 7px;
+    border-radius: 5px;
+    margin: 10px 0px;
+    cursor: pointer;
+}
+.buttonCool:active {
+    transform: scale(.95);
+}

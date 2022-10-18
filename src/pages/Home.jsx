@@ -15,7 +15,9 @@ const Home = () => {
                 <h1>Find Your Study Buddy!</h1>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '4vh' }}>
-                <Button onClick={() => navigate("/Filters")}>Let's Go!</Button>
+                <Button onClick={() => navigate("/Filters")}>List View</Button>
+                <span style={{ paddingLeft: '10px' }}></span>
+                <Button onClick={() => navigate("/Map")}>Map View</Button>
             </div>
             <div>
                 <img src={gator} />

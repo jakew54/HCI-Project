@@ -18,7 +18,7 @@ const Filters = () => {
     const getGroupNum = useCallback(async () => {
         const url = new URL('http://127.0.0.1:8000/done_filtering');
         const response = await axios.get(url);
-        console.log(response.data.students[0].name);
+        console.log(response.data);
         setCurrGroupNum(response.data.number_of_students);
         //setCurrentStudents(response.data.students);
     });
