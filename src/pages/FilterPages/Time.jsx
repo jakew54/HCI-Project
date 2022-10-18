@@ -1,26 +1,59 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
+import React, { useState, useCallback } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import RangeSlider from '../../component/rangeSliders/rangeSlider.js';
+import { RangeSlider, Button, Container } from '@mantine/core';
+import axios from 'axios';
+
+const MARKS = [
+  { value: 0 },
+  { value: 1 },
+  { value: 2 },
+  { value: 3 },
+  { value: 4 },
+  { value: 5 },
+  { value: 6 },
+  { value: 7 },
+  { value: 8 },
+  { value: 9 },
+  { value: 10 },
+];
+
 
 const Time = () => {
   const navigate = useNavigate();
-  const notify = () => toast("Filters successfully applied!");
+
+  const [rangeValue, setRangeValue] = useState([0, 10]);
+
+  const handleReq = useCallback(async () => {
+    if (rangeValue.length === 2) {
+      const url = new URL('http://127.0.0.1:8000/time_filter');
+      const searchParams = new URLSearchParams({
+        "min_time": rangeValue[0],
+        "max_time": rangeValue[1],
+      });
+      url.search = searchParams.toString();
+      const response = await axios.get(url);
+      console.log(response.data);
+      navigate("/Filters");
+    }
+  }, [rangeValue]);
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
-        <h1> How long would you like to study? </h1>
+        <h1> Enter desired study duration</h1>
       </div>
 
-      <RangeSlider min={1} max={10} onChange={({ min, max }) => console.log('min = ${min}, max=${max}')} />
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '0vh' }}>
+        <h4> All time is measured in hours </h4>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '5vh' }}>
+      </div>
+      <Container size={400}>
+        <RangeSlider max={10} minRange={1} marks={MARKS} value={rangeValue} onChange={setRangeValue} step={1} styles={{ markLabel: { display: 'none' } }} />
+      </Container>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
-        <Button onClick={notify}>Apply</Button>
+        <Button onClick={() => handleReq()}>Apply and return to Filters</Button>
       </div>
-
-      <ToastContainer />
-      <Button onClick={() => navigate("/Filters")}>Return to Filters</Button>
     </div>
   );
 };

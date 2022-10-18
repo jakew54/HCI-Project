@@ -1,0 +1,76 @@
+/* Split the screen in half */
+
+.rectangle {
+  display: inline-block;
+  width:25%;
+  height:10%;
+  background: #0021A5;
+  margin-top: -2%;
+}
+
+.headerMap{
+  display: flex;
+  align-items: center;
+  margin-left:  4.5vh;
+  margin-top: -7.75vh;
+  font: 5vh Arial;
+  font-weight: bold;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+  color: #FA4616;
+}
+
+.split {
+    height: 100%;
+    width: 80%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  
+  /* Control the left side */
+  .left {
+    left: 0;
+    background-color: rgb(240, 248, 255);
+  }
+  
+  /* Control the right side */
+  .right {
+    right: 0;
+    background-color: rgb(240, 248, 255);
+  }
+  
+  /* If you want the content centered horizontally and vertically */
+  .centered {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    text-align: center;
+  }
+
+  .buttonMap {
+  background-color: #0021A5;
+  color: white;
+  font-size: 20px;
+  padding: 10px 60px;
+  border-radius: 5px;
+  margin: 10px 0px;
+  cursor: pointer;
+  }
+  .buttonMap:active {
+    transform: scale(.95);
+}
+
+.headerMap{
+  display: flex;
+  align-items: center;
+  margin-left:  4.5vh;
+  margin-top: -7.75vh;
+  font: 5vh Arial;
+  font-weight: bold;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+  color: #FA4616;
+}

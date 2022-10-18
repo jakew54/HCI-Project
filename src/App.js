@@ -16,14 +16,17 @@ import Major from './pages/FilterPages/Major';
 import Place from './pages/FilterPages/Place';
 import StudyRole from './pages/FilterPages/StudyRole';
 import Time from './pages/FilterPages/Time';
+import Map from './pages/Map';
 
 
 function App() {
     return (
+        <div className='background-App'>
         <Router>
             <Navbar />
             <Routes>
                 <Route exact path='/' element={<Home />} />
+                <Route path='/Home' element={<Home />} />
                 <Route path='/Filters' element={<Filters />} />
                 <Route path='/Groups' element={<Groups />} />
                 <Route path='/Login' element={<Login />} />
@@ -34,8 +37,10 @@ function App() {
                 <Route path='/StudyRole' element={<StudyRole />} />
                 <Route path='/Time' element={<Time />} />
                 <Route path='/Class' element={<Class />} />
+                <Route path='/Map' element={<Map />} />
             </Routes>
         </Router>
+        </div>
     );
 }
 

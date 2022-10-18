@@ -1,0 +1,70 @@
+button {
+    text-rendering: auto;
+    color: buttontext;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    background-color: buttonface;
+    box-sizing: border-box;
+    margin: 0em;
+    font: 400 14px Arial;
+    font-weight: bold;
+    padding: 1px 20px 5px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(104, 22, 255) rgb(209, 209, 209) rgb(186, 186, 186);
+    border-image: initial;
+}
+.button:active {
+    transform: scale(.95);
+}
+
+.buttonTextBox {
+    text-rendering: auto;
+    color: buttontext;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    background-color: buttonface;
+    box-sizing: border-box;
+    margin: 0em;
+    font: 400 14px Arial;
+    font-weight: bold;
+    padding: 1px 5px 1px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(209, 209, 209) rgb(209, 209, 209) rgb(186, 186, 186);
+    border-image: initial;
+}
+.buttonTextBox:active {
+    transform: scale(.95);
+}
+
+.resize {
+    width: 2vh;
+    height: 1vh;
+}
+
+
+.buttonCool {
+    background-color: #0021A5;
+    color: white;
+    font-size: 14px;
+    padding: 2px 7px;
+    border-radius: 5px;
+    margin: 10px 0px;
+    cursor: pointer;
+}
+.buttonCool:active {
+    transform: scale(.95);
+}
