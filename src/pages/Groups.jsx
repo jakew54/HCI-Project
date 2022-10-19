@@ -6,60 +6,56 @@ import ReactDOM from 'react-dom';
 import "../Styles/Filters.css";
 import "../Styles/Buttons.css";
 import axios from 'axios';
-import gator from '../Styles/uf_gator_filters.png';
 import ListComponent from '../component/ListComponent';
 import RowComponent from '../component/RowComponent';
+import gator from '../Styles/uf_gator_filters.png';
 
 
 const Groups = () => {
     const navigate = useNavigate();
-    //const [currGroupNum, setCurrGroupNum] = useState([]);
+    const [currGroupNum, setCurrGroupNum] = useState([]);
     const [currentStudents, setCurrentStudents] = useState([]);
-    let classes = ["Calc 1", "Stats", "Data"];
-    let group_sizes = ["3", "2", "5"];
-    let languages = ["English", "Hindi", "French"];
-    let majors = ["Computer Science", "Political Science", "Business"];
-    let pics = [process.env.PUBLIC_URL + "/pictures/Jake.jpg", process.env.PUBLIC_URL + "/pictures/Liron.jpg", process.env.PUBLIC_URL + "/pictures/Seggev.jpg"];
-    let places = ["Library West", "Marston Library", "Online"];
-    let place_types = ["Library"];
-    let study_roles = ["Study Buddy", "Study Buddy", "Tutor"];
-    let times = ["2000", "1800", "1500"];
-    let names = ["Jake Watson", "Liron", "Seggev"];
+
+    useEffect(() => {
+        getGroupNum(); //set flag to make it only call a few times
+    }, []);
 
     const Row = ({ index, style }) => (
-        <RowComponent name={currentStudents[index]?.name} num={index} style={style} />
+        <RowComponent name={currentStudents[index]?.name} major={currentStudents[index]?.major}
+            class_name={currentStudents[index]?.class_name} place={currentStudents[index]?.place}
+            time={currentStudents[index]?.time.toString()} language={currentStudents[index]?.language}
+            study_role={currentStudents[index]?.study_role} group_size={currentStudents[index]?.group_size}
+            picture={process.env.PUBLIC_URL.concat("/pictures/", currentStudents[index]?.picture)}
+            num={index} style={style} />
     );
 
     const getGroupNum = useCallback(async () => {
         const url = new URL('http://127.0.0.1:8000/done_filtering');
         const response = await axios.get(url);
         console.log(response.data);
-        // setCurrGroupNum(response.data.number_of_students);
+        setCurrGroupNum(response.data.number_of_students);
         setCurrentStudents(response.data.students);
     });
 
-    useEffect(() => {
-        getGroupNum(); //set flag to make it only call a few times
-    }, []);
-
-    useEffect(() => {
-        console.log(currentStudents);
-    }, [currentStudents]);
+    const clearFilters = useCallback(async () => {
+        const url = new URL('http://127.0.0.1:8000/clear_filters');
+        const response = await axios.get(url);
+        console.log(response.data);
+        setCurrGroupNum(response.data.number_of_students);
+        setCurrentStudents(response.data.students);
+    });
 
     return (
         <>
             <div className="headerFilters">
-                <h1>Choose a Group!</h1>
+                <h1 style={{fontSize:'54px'}}>There are {currGroupNum} that match your preferences!</h1>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', height: '10vh' }}>
-                <img className='imgAvatar' src={pics[0]}></img>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'left', justifyContent: 'left', marginLeft: '5vh' }}>
                 <FixedSizeList
                     height={650}
-                    width={1200}
-                    itemSize={1200}
-                    itemCount={pics.length}
+                    width={1118}
+                    itemSize={207}
+                    itemCount={currentStudents.length}
                     className="list-container"
                 >
                     {Row}
@@ -72,6 +68,23 @@ const Groups = () => {
                     })} */}
                 </FixedSizeList>
             </div>
+            <img src={gator} style={{ position: 'absolute', left: '68%', top: '45%' }} />
+            <div style={{ position: 'absolute', left: '89.7%', top: '50.5%', textAlign: 'center' }}>
+                <h2 style={{ margin: 0, fontSize: 30 }}>How can I</h2>
+                <h2 style={{ margin: 0, fontSize: 30 }}>help you?</h2>
+            </div>
+            <button className='buttonCool' 
+            style={{ position: 'absolute', left: '65%', top: '24%', 
+            padding: '30px 60px', fontSize: '20px', backgroundColor:'#FA4616', borderColor:'rgb(0,0,0)'}}
+            onClick={clearFilters}>
+                Clear Filters
+            </button>
+            <button className='buttonCool' 
+            style={{ position: 'absolute', left: '83%', top: '23.8%', 
+            padding: '30px 60px', fontSize: '20px', backgroundColor:'#FA4616', borderColor:'rgb(0,0,0)'}}
+            onClick={() => navigate("/Home")}>
+                Return Home
+            </button>
         </>
     );
 };

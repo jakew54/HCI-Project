@@ -17,6 +17,24 @@ ul.a{
 
 .imgAvatar {
     border-radius: 50%;
-    width:10vh;
+    width:15vh;
     height:auto;
 }
+
+.backImg {
+    background-image: url("./listBox.png");
+    background-repeat: no-repeat;
+}
+
+.backImgMap {
+    background-image: url("./listBoxMap.png");
+    background-repeat: no-repeat;
+}
+
+.parent {
+    text-align: left;
+  }
+  .child {
+    display: inline-block;
+    vertical-align: center;
+  }

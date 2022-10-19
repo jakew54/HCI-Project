@@ -19,9 +19,10 @@ button {
     border-style: solid;
     border-color: rgb(104, 22, 255) rgb(209, 209, 209) rgb(186, 186, 186);
     border-image: initial;
+    cursor:pointer;
 }
 .button:active {
-    transform: scale(.95);
+    transform: scale(.55);
 }
 
 .buttonTextBox {

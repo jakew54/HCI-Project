@@ -28,11 +28,11 @@ const Filters = () => {
         const response = await axios.get(url);
         console.log(response.data);
         setCurrGroupNum(response.data.number_of_students);
-        //setCurrentStudents(response.data.students);
+        setCurrentStudents(response.data.students);
     });
 
     useEffect(() => {
-        getGroupNum(); //set flag to make it only call a few times
+        getGroupNum();
     }, []);
 
     useEffect(() => {

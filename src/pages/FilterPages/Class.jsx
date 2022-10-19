@@ -10,11 +10,6 @@ import axios from 'axios';
 const Class = () => {
   const navigate = useNavigate();
   const [className, setClassName] = useState('');
-  const [finalStr, setFinalStr] = useState('');
-
-  const buildString = () => {
-    setFinalStr(finalStr + className + ",");
-  }
 
   const handleReq = useCallback(async () => {
     if (className.length > 0) {
@@ -38,8 +33,6 @@ const Class = () => {
         <TextInput placeholder="Your course" label="Enter your course name"
           value={className}
           onChange={(event) => setClassName(event.currentTarget.value)} />
-        <Button className="buttonCool" onClick={buildString} style={{marginLeft:'1vh', marginTop:'3.5vh'}}>Add class</Button>
-
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '7vh' }}>
         <Button onClick={handleReq}>Apply and return to filters</Button>

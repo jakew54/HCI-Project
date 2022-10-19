@@ -58,6 +58,7 @@
   border-radius: 5px;
   margin: 10px 0px;
   cursor: pointer;
+  border-color: rgb(0,0,0);
   }
   .buttonMap:active {
     transform: scale(.95);

@@ -1,39 +1,61 @@
-import React from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Checkbox from '@mui/material/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import { Checkbox } from '@mantine/core';
+import { useListState, randomId } from '@mantine/hooks';
+import axios from 'axios';
 
 
-const places = ["Library West", "Marston Library", "Newell Hall", "The Hub", "The Reitz", "Online", "Outside"];
+const places = ['Library', 'Outside', 'Online', 'Study Room'];
 
 const Place = () => {
   const navigate = useNavigate();
-  const notify = () => toast("Filters successfully applied!");
+  const [selectedPlaces, setSelectedPlaces] = useState([]);
+
+  const handleRequest = useCallback(async () => {
+    if (selectedPlaces.length > 0) {
+       const url = new URL('http://127.0.0.1:8000/place_type_filter');
+       const searchParams = new URLSearchParams({
+            "place_types": selectedPlaces.join(","),
+       });
+       url.search = searchParams.toString();
+       const response = await axios.get(url);
+       navigate("/Filters");
+       }
+   }, [selectedPlaces]);
+
+   const onSelect = useCallback((place, checked) => {
+    if (checked) {
+      setSelectedPlaces((prev) => [...prev, place])
+    } else {
+      setSelectedPlaces((prev) => prev.filter((element) => element !== place));
+    }
+  }, [setSelectedPlaces]);
+
+  const options = useMemo(() => places.map((place) => {
+    return (
+      <Checkbox
+        mt="xs"
+        ml={33}
+        label={place}
+        key={randomId()}
+        checked={selectedPlaces.includes(place)}
+        onChange={(event) => onSelect(place, event.currentTarget.checked)}
+      />
+    );
+  }), [selectedPlaces, onSelect]);
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
-        <h1>Where would you like to study?</h1>
+        <h1>Choose your study places</h1>
       </div>
-      <FormGroup>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '2vh' }}>
-          <FormControlLabel control={<Checkbox />} label={places[0]} />
-          <FormControlLabel control={<Checkbox />} label={places[1]} />
-          <FormControlLabel control={<Checkbox />} label={places[2]} />
-          <FormControlLabel control={<Checkbox />} label={places[3]} />
-          <FormControlLabel control={<Checkbox />} label={places[4]} />
-          <FormControlLabel control={<Checkbox />} label={places[5]} />
-          <FormControlLabel control={<Checkbox />} label={places[6]} />
-        </div>
-      </FormGroup>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '6vh' }}>
-        <Button onClick={notify}>Apply</Button>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '8vh' }}>
+        {options}
       </div>
-      <ToastContainer />
-      <Button onClick={() => navigate("/Filters")}>Return to Filters</Button>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '15vh' }}>
+        <Button onClick={handleRequest}>Apply and return to Filters</Button>
+      </div>
     </div>
   );
 };
