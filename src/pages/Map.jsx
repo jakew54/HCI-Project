@@ -2,7 +2,7 @@ import { React, useState, useCallback, useMemo, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
 import '../Styles/Map.css';
-import mapPic from '../Styles/hci_map_with_pc.png';
+import mapPic from '../Styles/hci_map_final.png';
 import { Text, TextInput, BackgroundImage, Center, Box, Checkbox, RangeSlider, Container } from '@mantine/core';
 import { useListState, randomId } from '@mantine/hooks';
 import axios from 'axios';
@@ -56,6 +56,7 @@ const Map = () => {
     const [isShownPlaza, setIsShownPlaza] = useState(false);
     const [isShownLawn, setIsShownLawn] = useState(false);
     const [isShownNewell, setIsShownNewell] = useState(false);
+    const [isShownGroupChosen, setIsShownGroupChosen] = useState(false);
 
     //current groups per location
     const [currentStudentsLibWest, setCurrentStudentsLibWest] = useState([]);
@@ -338,7 +339,7 @@ const Map = () => {
     useEffect(() => {
         getGroupNum();
     }, []);
-    
+
 
     useEffect(() => {
         setCurrentStudentsLibWest([]);
@@ -434,7 +435,35 @@ const Map = () => {
             num={index} style={style} />
     );
 
+    const onCloseListClickLibWest = () => {
+        setIsShownGroupChosen(false);
+        setIsShownLibWest(false);
+    }
 
+    const onCloseListClickPlaza = () => {
+        setIsShownGroupChosen(false);
+        setIsShownPlaza(false);
+    }
+
+    const onCloseListClickNewell = () => {
+        setIsShownGroupChosen(false);
+        setIsShownNewell(false);
+    }
+
+    const onCloseListClickMarston = () => {
+        setIsShownGroupChosen(false);
+        setIsShownMarston(false);
+    }
+
+    const onCloseListClickComputer = () => {
+        setIsShownGroupChosen(false);
+        setIsShownComputer(false);
+    }
+
+    const onCloseListClickLawn = () => {
+        setIsShownGroupChosen(false);
+        setIsShownLawn(false);
+    }
 
     return (
         <div>
@@ -534,6 +563,9 @@ const Map = () => {
                 <Box sx={{ marginTop: -20, maxHeight: 1900 }} mx="auto">
                     <BackgroundImage src={mapPic} radius="xs">
                         <Center style={{ height: 980 }}>
+                            <h1 style={{ position: 'absolute', left: '3vh', top: '0vh' }}>There are</h1>
+                            <h1 style={{ position: 'absolute', left: '9vh', top: '3vh', color: '#FA4616', fontSize: '48px' }}>{currGroupNum}</h1>
+                            <h1 style={{ position: 'absolute', left: '5vh', top: '9.5vh' }}>groups!</h1>
                         </Center>
                         <div>
                             {isPinShownLibWest && (
@@ -556,7 +588,7 @@ const Map = () => {
                             )}
                         </div>
                         {isShownLibWest && (<div style={{ position: 'absolute', zIndex: '1000', left: '52vh', top: '2vh' }}>
-                            <Button className='buttonCool' onClick={() => setIsShownLibWest(false)} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
+                            <Button className='buttonCool' onClick={onCloseListClickLibWest} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
                             <FixedSizeList
                                 height={250}
                                 width={517}
@@ -566,10 +598,18 @@ const Map = () => {
                             >
                                 {RowLibWest}
                             </FixedSizeList>
+                            <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                            {isShownGroupChosen &&
+                                <div className='chooseGroupRect'>
+                                    <div className='chooseGroupText' style={{ left: '41vh', top: '-21vh' }}>
+                                        <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
+                                    </div>
+                                </div>
+                            }
                         </div>)}
 
                         {isShownPlaza && (<div style={{ position: 'absolute', zIndex: '1000', left: '50vh', top: '17vh' }}>
-                            <Button className='buttonCool' onClick={() => setIsShownPlaza(false)} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
+                            <Button className='buttonCool' onClick={onCloseListClickPlaza} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
                             <FixedSizeList
                                 height={250}
                                 width={517}
@@ -579,10 +619,18 @@ const Map = () => {
                             >
                                 {RowPlaza}
                             </FixedSizeList>
+                            <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                            {isShownGroupChosen &&
+                                <div className='chooseGroupRect'>
+                                    <div className='chooseGroupText' style={{ left: '41vh', top: '-21vh' }}>
+                                        <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
+                                    </div>
+                                </div>
+                            }
                         </div>)}
 
                         {isShownComputer && (<div style={{ position: 'absolute', zIndex: '1000', left: '83vh', top: '45vh' }}>
-                            <Button className='buttonCool' onClick={() => setIsShownComputer(false)} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
+                            <Button className='buttonCool' onClick={onCloseListClickComputer} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
                             <FixedSizeList
                                 height={250}
                                 width={517}
@@ -592,10 +640,18 @@ const Map = () => {
                             >
                                 {RowComputer}
                             </FixedSizeList>
+                            <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                            {isShownGroupChosen &&
+                                <div className='chooseGroupRect'>
+                                    <div className='chooseGroupText' style={{ left: '41vh', top: '-21vh' }}>
+                                        <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
+                                    </div>
+                                </div>
+                            }
                         </div>)}
 
                         {isShownMarston && (<div style={{ position: 'absolute', zIndex: '1000', left: '37vh', top: '45vh' }}>
-                            <Button className='buttonCool' onClick={() => setIsShownMarston(false)} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
+                            <Button className='buttonCool' onClick={onCloseListClickMarston} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
                             <FixedSizeList
                                 height={250}
                                 width={517}
@@ -605,10 +661,18 @@ const Map = () => {
                             >
                                 {RowMarston}
                             </FixedSizeList>
+                            <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                            {isShownGroupChosen &&
+                                <div className='chooseGroupRect'>
+                                    <div className='chooseGroupText' style={{ left: '41vh', top: '-21vh' }}>
+                                        <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
+                                    </div>
+                                </div>
+                            }
                         </div>)}
 
                         {isShownNewell && (<div style={{ position: 'absolute', zIndex: '1000', left: '19vh', top: '22vh' }}>
-                            <Button className='buttonCool' onClick={() => setIsShownNewell(false)} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
+                            <Button className='buttonCool' onClick={onCloseListClickNewell} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
                             <FixedSizeList
                                 height={250}
                                 width={517}
@@ -618,10 +682,18 @@ const Map = () => {
                             >
                                 {RowNewell}
                             </FixedSizeList>
+                            <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                            {isShownGroupChosen &&
+                                <div className='chooseGroupRect'>
+                                    <div className='chooseGroupText' style={{ left: '41vh', top: '-21vh' }}>
+                                        <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
+                                    </div>
+                                </div>
+                            }
                         </div>)}
 
                         {isShownLawn && (<div style={{ position: 'absolute', zIndex: '1000', left: '13vh', top: '43vh' }}>
-                            <Button className='buttonCool' onClick={() => setIsShownLawn(false)} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
+                            <Button className='buttonCool' onClick={onCloseListClickLawn} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
                             <FixedSizeList
                                 height={250}
                                 width={517}
@@ -631,6 +703,14 @@ const Map = () => {
                             >
                                 {RowLawn}
                             </FixedSizeList>
+                            <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                            {isShownGroupChosen &&
+                                <div className='chooseGroupRect'>
+                                    <div className='chooseGroupText' style={{ left: '41vh', top: '-21vh' }}>
+                                        <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
+                                    </div>
+                                </div>
+                            }
                         </div>)}
                     </BackgroundImage>
                 </Box>
