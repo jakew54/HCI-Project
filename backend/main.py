@@ -227,7 +227,7 @@ def done_filtering(db: Session = Depends(get_db)):
 
 
 @app.get("/clear_filters", response_model=StudentsResponse)
-def done_filtering(db: Session = Depends(get_db)):
+def clear_filters(db: Session = Depends(get_db)):
     main_filter.clear_filters()
     students = get_filtered_students(db)
     return response(students)
