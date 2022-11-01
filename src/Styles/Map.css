@@ -2,8 +2,8 @@
 
 .rectangle {
   display: inline-block;
-  width:25%;
-  height:10%;
+  width:45%;
+  height:7%;
   background: #0021A5;
   margin-top: -2%;
 }
@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   margin-left:  4.5vh;
-  margin-top: -7.75vh;
+  margin-top: -9.75vh;
   font: 5vh Arial;
   font-weight: bold;
   -webkit-text-stroke-width: 2px;
@@ -22,7 +22,7 @@
 
 .split {
     height: 100%;
-    width: 80%;
+    width: 75.5%;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -67,8 +67,8 @@
 .headerMap{
   display: flex;
   align-items: center;
-  margin-left:  4.5vh;
-  margin-top: -7.75vh;
+  margin-left:  6vh;
+  margin-top: -6.75vh;
   font: 5vh Arial;
   font-weight: bold;
   -webkit-text-stroke-width: 2px;
@@ -78,7 +78,7 @@
 
 .chooseGroupRect {
   text-align: center;
-  left: 0;
+  left: 5vh;
   right: 0;
  }
 

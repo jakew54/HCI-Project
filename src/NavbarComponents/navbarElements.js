@@ -14,8 +14,8 @@ export const Nav = styled.nav`
 export const StudyBuddy = styled.div`
 display: flex;
 align-items: center;
-margin-left: -450px;
-margin-right: 120px;
+margin-left: -230px;
+margin-right: 290px;
 font: 5vh Arial;
 font-weight: bold;
 -webkit-text-stroke-width: 2px;
