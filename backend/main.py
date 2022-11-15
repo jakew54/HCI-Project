@@ -8,6 +8,7 @@ import pandas as pd
 from datetime import datetime
 from typing import List
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 MAJOR_LIST = ["Computer Science", "Math", "Biology", "Political Science", "Chemistry", "Physics"]
 CLASS_NAME_LIST = ['Data Bases', 'Calc 1', 'Statistics', 'Introduction to Computer Science']
@@ -84,7 +85,6 @@ def apply_checkbox_filter(filter_lst, general_lst, students, query_name):
     current_dict = get_dict(general_lst)
     for key in filter_lst:
         current_dict[key] = 1
-    # print(current_dict)
     for key, value in current_dict.items():
         if value == 0:
             if query_name == 'Major':
@@ -104,10 +104,10 @@ def get_filtered_students(db):
     students = db.query(Student)
 
     if main_filter.min_time:
-        students = students.filter(Student.time >= (get_current_time() + int(main_filter.min_time) * 100))
+        students = students.filter(Student.time >= int(main_filter.min_time))
 
     if main_filter.max_time:
-        students = students.filter(Student.time <= (get_current_time() + int(main_filter.max_time) * 100))
+        students = students.filter(Student.time <= int(main_filter.max_time))
 
     if main_filter.majors and main_filter.majors[0]:
         students = apply_checkbox_filter(main_filter.majors, MAJOR_LIST, students, 'Major')
@@ -155,6 +155,8 @@ def response(students):
 app = FastAPI()
 
 main_filter = Filter()
+
+os.remove("students.db")
 
 models.Base.metadata.create_all(bind=engine)
 
