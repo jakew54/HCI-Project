@@ -8,7 +8,7 @@ import "../Styles/Buttons.css";
 import axios from 'axios';
 import ListComponent from '../component/ListComponent';
 import RowComponent from '../component/RowComponent';
-import gator from '../Styles/uf_gator_filters.png';
+import gator from '../Styles/uf_gator_groups.png';
 
 
 const Groups = () => {
@@ -52,41 +52,36 @@ const Groups = () => {
             <div className="headerFilters">
                 <h1 style={{ fontSize: '54px' }}>There are {currGroupNum} that match your preferences!</h1>
             </div>
-            <div style={{ display: 'flex', alignItems: 'left', justifyContent: 'left', marginLeft: '5vh' }}>
+            <div style={{marginLeft: '5vh', height: 'auto' }}>
                 <FixedSizeList
-                    height={650}
-                    width={1118}
-                    itemSize={207}
+                    height={650} //650
+                    width="60vw"
+                    itemSize={207} //207
                     itemCount={currentStudents.length}
                     className="list-container"
                 >
                     {Row}
-                    {/* {currentStudents.map((student, index) => {
-                        return (
-                            <div key={`${student.name}-${index}`}>
-                                <h3>{student.name}</h3>
-                            </div>
-                        );
-                    })} */}
                 </FixedSizeList>
-                <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '92vh', top: '20vh', height: '66.7vh', width: '17.5vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '42.5vw', top: '28vh', height: '66.7vh', width: '9vw', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
                 {isShownGroupChosen &&
-                        <div className='chooseGroupRect' style={{position:'absolute', left:'70vh', top:'20vh'}}>
-                            <div className='chooseGroupText' style={{ left: '2vh', top: '20vh' }}>
-                                <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
+                    <div className='rectangleGroup' style={{position:'absolute', left:'64vw', top:'44vh', width:'15vw'}}>
+                        <h1 style={{fontSize:'1.8vw', textAlign:'center'}}>Group Joined Successfully!</h1>
+                    </div>
+
+                }
+                {/* {isShownGroupChosen &&
+                        <div className='chooseGroupRect' style={{position:'absolute', left:'45vw', top:'20vh'}}>
+                            <div className='chooseGroupText' style={{ left: '0vw', top: '20vh', backgroundColor:'rgba(0,0,0,0)', width:'15vw', height:'15vh'}}>
+                                <h1 style={{ marginTop: '3vh' , fontSize:'1.8vw'}}>Group Joined Successfully!</h1>
                             </div>
                         </div>
-                }
+                } */}
             </div>
-            <img src={gator} style={{ position: 'absolute', left: '68%', top: '45%' }} />
-            <div style={{ position: 'absolute', left: '89.7%', top: '50.5%', textAlign: 'center' }}>
-                <h2 style={{ margin: 0, fontSize: 30 }}>How can I</h2>
-                <h2 style={{ margin: 0, fontSize: 30 }}>help you?</h2>
-            </div>
+            <img src={gator} style={{ position: 'absolute', left: '64vw', top: '50vh', width:'35vw', height:'48vh'}} />
             <button className='buttonCool'
                 style={{
                     position: 'absolute', left: '65%', top: '24%',
-                    padding: '30px 60px', fontSize: '20px', backgroundColor: '#FA4616', borderColor: 'rgb(0,0,0)'
+                    padding: '3vh 3vw', fontSize: '1.5vw', backgroundColor: '#FA4616', borderColor: 'rgb(0,0,0)'
                 }}
                 onClick={clearFilters}>
                 Clear Filters
@@ -94,10 +89,10 @@ const Groups = () => {
             <button className='buttonCool'
                 style={{
                     position: 'absolute', left: '83%', top: '23.8%',
-                    padding: '30px 60px', fontSize: '20px', backgroundColor: '#FA4616', borderColor: 'rgb(0,0,0)'
+                    padding: '3vh 4vw', fontSize: '1.5vw', backgroundColor: '#FA4616', borderColor: 'rgb(0,0,0)'
                 }}
                 onClick={() => navigate("/Home")}>
-                Return Home
+                Go Home
             </button>
         </>
     );

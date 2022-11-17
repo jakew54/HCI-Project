@@ -6,8 +6,6 @@ import { RangeSlider, Button, Container } from '@mantine/core';
 import axios from 'axios';
 
 const MARKS = [
-  { value: 0 },
-  { value: 1 },
   { value: 2 },
   { value: 3 },
   { value: 4 },
@@ -23,7 +21,7 @@ const MARKS = [
 const GroupSize = () => {
   const navigate = useNavigate();
 
-  const [rangeValue, setRangeValue] = useState([0, 10]);
+  const [rangeValue, setRangeValue] = useState([2, 10]);
 
   const handleReq = useCallback(async () => {
     if (rangeValue.length === 2) {
@@ -45,7 +43,7 @@ const GroupSize = () => {
         <h1> Enter desired group size </h1>
       </div>
       <Container size={400}>
-        <RangeSlider max={10} minRange={1} marks={MARKS} value={rangeValue} onChange={setRangeValue}
+        <RangeSlider min={2} max={10} minRange={1} marks={MARKS} value={rangeValue} onChange={setRangeValue}
           step={1} styles={{ markLabel: { display: 'none' } }}
           size='lg' width='50%' />
       </Container>

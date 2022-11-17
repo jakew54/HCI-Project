@@ -2,10 +2,11 @@ import { React, useState, useCallback } from 'react';
 import { Button } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import { Text, TextInput } from '@mantine/core';
+import { Autocomplete, Text, TextInput } from '@mantine/core';
 import { useListState } from '@mantine/hooks';
 import axios from 'axios';
 
+const classes = ['Data Bases', 'Calc 1', 'Statistics', 'Introduction to Computer Science']
 
 const Class = () => {
   const navigate = useNavigate();
@@ -30,9 +31,9 @@ const Class = () => {
         <h1>Choose your course!</h1>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
-        <TextInput placeholder="Your course" label="Enter your course name"
+          <Autocomplete label="Class" placeholder="Enter your class name" data={classes} 
           value={className}
-          onChange={(event) => setClassName(event.currentTarget.value)} />
+          onChange={setClassName} />
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '7vh' }}>
         <Button onClick={handleReq}>Apply and return to filters</Button>

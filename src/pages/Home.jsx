@@ -30,7 +30,7 @@ const Home = () => {
                 <Button onClick={() => navigate("/Map")}>Map View</Button>
             </div>
             <div>
-                <img src={gator} />
+                <img src={gator} style={{position:'absolute', left:'0vw', top:'35vh', width:'45vw', height:'57vh'}}/>
             </div>
         </>
     );

@@ -4,19 +4,18 @@ import styled from "styled-components";
 
 export const Nav = styled.nav`
   background: #0021A5;
-  height: 85px;
+  height: 7vh;
   display: flex;
   justify-content: space-between;
-  padding: 0.2rem calc((100vw - 1000px) / 2);
+  padding: 0.5vw;
   z-index: 12;
 `;
 
 export const StudyBuddy = styled.div`
 display: flex;
-align-items: center;
-margin-left: -450px;
-margin-right: 120px;
-font: 5vh Arial;
+align-items: left;
+margin-right: 13vw;
+font: calc(2vw + 2vh) Arial;
 font-weight: bold;
 -webkit-text-stroke-width: 2px;
 -webkit-text-stroke-color: black;
@@ -31,11 +30,11 @@ white-space: nowrap; */
 export const NavLink = styled(Link)`
   color: #ffffff;
   display: flex;
-  font: 400 24px Arial;
+  font: 400 calc(1vw + 1vh) Arial;
   font-weight: bold;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
-  border = 1vh;
+  border = solid calc(2vw + 2vh);
   align-items: center;
   text-decoration: none;
   padding: 0 1rem;
@@ -63,7 +62,7 @@ export const Bars = styled(FaBars)`
 export const NavMenu = styled.div`
   display: flex;
   align-items: center;
-  margin-right: -24px;
+  margin-right: 0;
   /* Second Nav */
   /* margin-right: 24px; */
   /* Third Nav */

@@ -3,9 +3,10 @@ import { Button } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {Text, TextInput} from '@mantine/core';
+import {Text, TextInput, Autocomplete} from '@mantine/core';
 import axios from 'axios';
 
+const majors = ["Computer Science", "Math", "Biology", "Political Science", "Chemistry", "Physics"]
 
 const Major = () => {
   const navigate = useNavigate();
@@ -30,9 +31,9 @@ const Major = () => {
         <h1>Choose your major!</h1>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
-          <TextInput placeholder="Your major" label="Enter your major name" 
+          <Autocomplete label="Major" placeholder="Enter your major" data={majors} 
           value={majorName}
-          onChange={(event) => setMajorName(event.currentTarget.value)}/>
+          onChange={setMajorName} />
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '7vh' }}>
         <Button onClick={handleReq}>Apply and return to filters</Button>
