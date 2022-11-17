@@ -254,6 +254,8 @@ const Map = () => {
                 label={role}
                 key={randomId()}
                 checked={selectedRoles.includes(role)}
+                size='calc(0.5vw + 0.5vh)'
+                style={{marginLeft:'1vw', marginTop:'0.5vh'}}
                 onChange={(event) => onSelectStudyRole(role, event.currentTarget.checked)}
             />
         );
@@ -275,6 +277,8 @@ const Map = () => {
                 label={language}
                 key={randomId()}
                 checked={selectedLanguages.includes(language)}
+                size='calc(0.5vw + 0.5vh)'
+                style={{marginLeft:'1vw', marginTop:'0.5vh'}}
                 onChange={(event) => onSelectLanguage(language, event.currentTarget.checked)}
             />
         );
@@ -296,6 +300,8 @@ const Map = () => {
                 label={place}
                 key={randomId()}
                 checked={selectedPlaces.includes(place)}
+                size='calc(0.5vw + 0.5vh)'
+                style={{marginLeft:'1vw', marginTop:'0.5vh'}}
                 onChange={(event) => onSelectPlace(place, event.currentTarget.checked)}
             />
         );
@@ -530,23 +536,27 @@ const Map = () => {
     return (
         <div>
             <div class="split left">
-                <div className='rectangle' />
-                <div className='headerMap'>StudyBuddy</div>
+                <div className='rectangle'>
+                    <div className='headerMap' style={{fontSize:'calc(2vw + 2vh)', marginLeft:'0.7vw', marginTop:'2vh'}}>StudyBuddy</div>
+                </div>
 
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '2vh' }}>
                 </div>
 
-                <Container size={300} style={{ marginLeft: '-0.5vh', marginTop: '0vh' }}>
-                    <Autocomplete label="Major" placeholder="Enter your major" data={majors} size="lg"
+                <div style={{ marginTop: '-.5vh', marginLeft: '0.5vw', fontSize:'calc(0.8vw + 0.8vh)' }}>
+                    Major:
+                </div>
+                <Container size={'calc(12vw + 5vh)'} style={{ marginLeft: '-0.5vh', marginTop: '1vh' }}>
+                    <Autocomplete  placeholder="Enter your major" data={majors} paddingLeft="5vw" style={{size:"calc(0.9vw + 0.9vh)"}}
                     value={majorName}
                     onChange={setMajorName} />
                 </Container>
 
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '2vh' }}>
+                <div style={{ marginTop: '1vh', marginLeft: '0.5vw', fontSize:'calc(0.8vw + 0.8vh)' }}>
+                    Class:
                 </div>
-
-                <Container size={300} style={{ marginLeft: '-0.5vh', marginTop: '0vh' }}>
-                    <Autocomplete label="Class" placeholder="Enter your class name" data={classes} size="lg"
+                <Container size={'calc(12vw + 5vh)'} style={{ marginLeft: '-0.5vh', marginTop: '1vh' }}>
+                    <Autocomplete  placeholder="Enter your class" data={classes} paddingLeft="5vw" style={{size:"calc(0.9vw + 0.9vh)"}}
                     value={className}
                     onChange={setClassName} />
                 </Container>
@@ -554,10 +564,10 @@ const Map = () => {
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '2vh' }}>
                 </div>
 
-                <div style={{ marginLeft: '1vh' }}>
-                    <Text size="lg" weight={500}>Study Roles:</Text>
+                <div style={{ marginTop: '-1vh',marginLeft: '0.5vw', fontSize:'calc(0.8vw + 0.8vh)' }}>
+                    Study Roles:
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', height: '3vh', marginLeft: '-2vh' }}>
+                <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', height: '3vh', width:'20vw'}}>
                     {optionsStudyRole[0]}
                     {optionsStudyRole[1]}
                     {optionsStudyRole[2]}
@@ -566,57 +576,56 @@ const Map = () => {
                     {optionsStudyRole[3]}
                     {optionsStudyRole[4]}
                 </div>
-                <div style={{ marginLeft: '1vh' }}>
-                    <Text size="lg" weight={500}>Languages:</Text>
+                <div style={{ marginTop: '-1vh',marginLeft: '0.5vw', fontSize:'calc(0.8vw + 0.8vh)' }}>
+                    Languages:
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', height: '3vh', marginLeft: '-2vh' }}>
+                <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', height: '3vh' }}>
                     {optionsLanguage[0]}
                     {optionsLanguage[1]}
                     {optionsLanguage[2]}
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', height: '5vh', marginLeft: '-2vh', marginTop: '1vh' }}>
+                <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', height: '5vh', marginTop: '1vh' }}>
                     {optionsLanguage[3]}
-                    <div style={{ marginLeft: '-1.3vh' }}>
+                    <div style={{ marginLeft: '-.6vw' }}>
                         {optionsLanguage[4]}
                     </div>
-                    <div style={{ marginLeft: '.7vh' }}>
+                    <div style={{ marginLeft: '.3vw' }}>
                         {optionsLanguage[5]}
                     </div>
                 </div>
-                <div style={{ marginLeft: '1vh' }}>
-                    <Text size="lg" weight={500}>Locations:</Text>
+                <div style={{ marginTop: '-1vh',marginLeft: '0.5vw', fontSize:'calc(0.8vw + 0.8vh)' }}>
+                    Locations:
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', height: '3vh', marginLeft: '-2vh' }}>
+                <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', height: '3vh' }}>
                     {optionsPlaces[0]}
                     {optionsPlaces[1]}
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', height: '5vh', marginLeft: '-2vh' }}>
+                <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', height: '5vh'}}>
                     {optionsPlaces[2]}
-                    <div style={{ marginLeft: '0.1vh' }}>
+                    <div style={{ marginLeft: '0.05vw' }}>
                         {optionsPlaces[3]}
                     </div>
                 </div>
-                <div style={{ marginLeft: '1vh' }}>
-
-                    <Text size="lg" weight={500}>Group Size:</Text>
+                <div style={{ marginLeft: '0.5vw', fontSize:'calc(0.8vw + 0.8vh)' }}>
+                    Group Size:
                 </div>
-                <Container size={300} style={{ marginLeft: '2.5vh', marginTop: '3vh' }}>
+                <Container size={300} style={{ marginLeft:'1vw', marginTop: '2.5vh' }}>
                     <RangeSlider min={2} max={10} minRange={1} marks={GS_MARKS} value={groupSizeValue} onChange={setGroupSizeValue}
                         step={1} styles={{ markLabel: { display: 'none', width: '0vh' }, track: {width: '15vw'} }}
                         size='md' width='20%' />
                 </Container>
-                <div style={{ marginLeft: '1vh', marginTop: '2vh' }}>
-                    <Text size="lg" weight={500}>Study Duration (24 hour time):</Text>
+                <div style={{ marginTop: '2vh',marginLeft: '0.5vw', fontSize:'calc(0.8vw + 0.8vh)' }}>
+                    Study Duration (24 hour time):
                 </div>
-                <Container size={300} style={{ marginLeft: '2.5vh', marginTop: '3vh' }}>
+                <Container size={300} style={{ marginLeft:'1vw', marginTop: '2.5vh' }}>
                     <RangeSlider max={2400} minRange={50} marks={TIME_MARKS} value={timeValue} onChange={setTimeValue}
-                        step={50} styles={{ markLabel: { display: 'none', width: '0vh' }}}
-                        size='md' width='20%' />
+                        step={50} styles={{ markLabel: { display: 'none', width: '15vw' }, track: {width: '15vw'}}}
+                        size='md' />
                 </Container>
-                <Button className='buttonMap' style={{ marginLeft: '7vh', marginTop: '5vh' }} onClick={handleFilters}>Apply Filters</Button>
-                <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', marginLeft: '-2vh' }}>
-                    <Button className='buttonMap' style={{ marginLeft: '6vh', marginTop: '2vh', fontSize: '14px', padding: '12px 25px' }} onClick={clearFilters}>Clear Filters</Button>
-                    <Button className='buttonMap' style={{ marginLeft: '2.5vh', marginTop: '2vh', fontSize: '14px', padding: '4px 14px' }} onClick={() => navigate("/Home")}>Return to Home</Button>
+                <Button className='buttonMap' style={{marginTop: '3vh', marginLeft:'5vw',padding:'1vw', fontSize:'calc(0.6vh + 0.6vw)'}} onClick={handleFilters}>Apply Filters</Button>
+                <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', marginLeft: '-1vw' }}>
+                    <Button className='buttonMap' style={{ marginLeft: '6vh', marginTop: '1vh', fontSize:'calc(0.6vh + 0.6vw)', padding:'calc(0.5vw + 0.5vh)', maxWidth:'7vw'}} onClick={clearFilters}>Clear Filters</Button>
+                    <Button className='buttonMap' style={{ marginLeft: '1vw', marginTop: '1vh', padding:'calc(0.5vw + 0.5vh)', fontSize:'calc(0.6vh + 0.6vw)', maxWidth:'7vw' }} onClick={() => navigate("/Home")}>Return Home</Button>
                 </div>
             </div>
             <div class="split right">
