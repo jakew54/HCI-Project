@@ -65,7 +65,7 @@ const Filters = () => {
                 <Button onClick={clearFilters}>Clear Filters</Button>
             </div>
             <img src={gator} style={{position: 'absolute', left:'5vw', top:'38vh', width:'35vw', height:'57vh'}} />
-                <div style={{ position: 'absolute', left: '27.25vw', top: '38.25vh', inlineSize: '24vh', textAlign: 'center' }}>
+                <div style={{ position: 'absolute', left: '27.6vw', top: '38.25vh', inlineSize: 'calc(8vh + 8vw)',  textAlign: 'center' }}>
                     <h2 style={{ marginBottom: '-2vh', fontSize:'calc(0.9vw + 0.9vh)'}}>There are</h2>
                     <h1 style={{ color: '#FA4616', fontSize:'calc(1.2vw + 1.2vh)' }}>{currGroupNum}</h1>
                     <h2 style={{ marginTop: '-2vh', fontSize:'calc(0.9vw + 0.9vh)'}}>groups that match you!</h2>

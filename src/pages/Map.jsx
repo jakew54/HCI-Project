@@ -1,4 +1,4 @@
-import { React, useState, useCallback, useMemo, useEffect } from 'react';
+import { React, useState, useCallback, useMemo, useEffect, Image } from 'react';
 import { Button } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
 import '../Styles/Map.css';
@@ -10,6 +10,7 @@ import { Translate } from '@mui/icons-material';
 import pinSmall from '../Styles/pinSmall.png';
 import RowComponentMap from '../component/RowComponentMap';
 import { FixedSizeList } from "react-window";
+import { AutoSizer } from 'react-virtualized';
 
 const TIME_MARKS = [
     { value:0, label: '00:00' },
@@ -609,15 +610,15 @@ const Map = () => {
                 <div style={{ marginLeft: '0.5vw', fontSize:'calc(0.8vw + 0.8vh)' }}>
                     Group Size:
                 </div>
-                <Container size={300} style={{ marginLeft:'1vw', marginTop: '2.5vh' }}>
+                <Container size='20vw' style={{ marginLeft:'1vw', marginTop: '2.5vh' }}>
                     <RangeSlider min={2} max={10} minRange={1} marks={GS_MARKS} value={groupSizeValue} onChange={setGroupSizeValue}
                         step={1} styles={{ markLabel: { display: 'none', width: '0vh' }, track: {width: '15vw'} }}
                         size='md' width='20%' />
                 </Container>
                 <div style={{ marginTop: '2vh',marginLeft: '0.5vw', fontSize:'calc(0.8vw + 0.8vh)' }}>
-                    Study Duration (24 hour time):
+                    Study Time Range (24 hour time):
                 </div>
-                <Container size={300} style={{ marginLeft:'1vw', marginTop: '2.5vh' }}>
+                <Container size='20vw' style={{ marginLeft:'1vw', marginTop: '2.5vh' }}>
                     <RangeSlider max={2400} minRange={50} marks={TIME_MARKS} value={timeValue} onChange={setTimeValue}
                         step={50} styles={{ markLabel: { display: 'none', width: '15vw' }, track: {width: '15vw'}}}
                         size='md' />
@@ -633,159 +634,156 @@ const Map = () => {
                     <BackgroundImage src={mapPic} radius="xs" width="auto" height="auto">
                     </BackgroundImage>
                 </Box> */}
-                <div style={{backgroundImage:'url('+mapPic+')', height:'100vh', width:'80vw', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}}>
-                <Center style={{ height: 980 }}>
-                            <h1 style={{ position: 'absolute', left: '1.8vw', top: '0vh', fontSize:'calc(1.1vw + 1.1vh)'}}>There are</h1>
-                            <h1 style={{ position: 'absolute', left: '4.4vw', top: '3.3vh', color: '#FA4616', fontSize:'calc(1.5vw + 1.5vh)'}}>{currGroupNum}</h1>
-                            <h1 style={{ position: 'absolute', left: '2.7vw', top: '9.5vh', fontSize:'calc(1.1vw + 1.1vh)' }}>groups!</h1>
-                        </Center>
-                        <div>
-                            {isPinShownLibWest && (
-                                <Button style={{ position: 'absolute', left: '52vw', top: '11.5vh', height: '55px', backgroundColor: 'rgba(0,0,0,0.0)', borderColor: 'rgba(0,0,0,0.0)', cursor: 'pointer' }} onClick={() => setIsShownLibWest(true)} ><img src={pinSmall} /></Button>
-                            )}
-                            {isPinShownPlaza && (
-                                <Button style={{ position: 'absolute', left: '52vw', top: '30vh', height: '55px', backgroundColor: 'rgba(0,0,0,0.0)', borderColor: 'rgba(0,0,0,0.0)', cursor: 'pointer' }} onClick={() => setIsShownPlaza(true)}><img src={pinSmall} /></Button>
-                            )}
-                            {(isPinShownComputer &&
-                                <Button style={{ position: 'absolute', left: '68vw', top: '78vh', height: '55px', backgroundColor: 'rgba(0,0,0,0.0)', borderColor: 'rgba(0,0,0,0.0)', cursor: 'pointer' }} onClick={() => setIsShownComputer(true)}><img src={pinSmall} /></Button>
-                            )}
-                            {(isPinShownMarston &&
-                                <Button style={{ position: 'absolute', left: '44vw', top: '68vh', height: '55px', backgroundColor: 'rgba(0,0,0,0.0)', borderColor: 'rgba(0,0,0,0.0)', cursor: 'pointer' }} onClick={() => setIsShownMarston(true)}><img src={pinSmall} /></Button>
-                            )}
-                            {(isPinShownLawn &&
-                                <Button style={{ position: 'absolute', left: '32vw', top: '78vh', height: '55px', backgroundColor: 'rgba(0,0,0,0.0)', borderColor: 'rgba(0,0,0,0.0)', cursor: 'pointer' }} onClick={() => setIsShownLawn(true)}><img src={pinSmall} /></Button>
-                            )}
-                            {(isPinShownNewell &&
-                                <Button style={{ position: 'absolute', left: '35vw', top: '47vh', height: '55px', backgroundColor: 'rgba(0,0,0,0.0)', borderColor: 'rgba(0,0,0,0.0)', cursor: 'pointer' }} onClick={() => setIsShownNewell(true)}><img src={pinSmall} /></Button>
-                            )}
-                        </div>
-                        {isShownLibWest && (<div style={{ position: 'absolute', zIndex: '1000', left: '52vh', top: '2vh' }}>
-                            <Button className='buttonCool' onClick={onCloseListClickLibWest} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
-                            <FixedSizeList
-                                height={250}
-                                width={517}
-                                itemSize={136}
-                                itemCount={currentStudentsLibWest.length}
-                                className="list-container"
-                            >
-                                {RowLibWest}
-                            </FixedSizeList>
-                            <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
-                            {isShownGroupChosen &&
-                                <div className='chooseGroupRect'>
-                                    <div className='chooseGroupText' style={{ left: '41vh', top: '-21vh' }}>
-                                        <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
-                                    </div>
-                                </div>
-                            }
-                        </div>)}
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td class="style1">
+                            <div class="bg">
+                                <img src={mapPic} alt="" />
+                                    <div class="linkcontainer">
+                                        <a class="link" href="#">
+                                            <Center style={{ height: '100vh' , cursor:'default'}}>
+                                                <h1 style={{ position: 'absolute', left: '1.8vw', top: '0vh', fontSize:'calc(1.1vw + 1.1vh)', color:'black'}}>There are</h1>
+                                                <h1 style={{ position: 'absolute', left: '4.4vw', top: '3.3vh', color: '#FA4616', fontSize:'calc(1.5vw + 1.5vh)'}}>{currGroupNum}</h1>
+                                                <h1 style={{ position: 'absolute', left: '2.7vw', top: '9.5vh', fontSize:'calc(1.1vw + 1.1vh)' , color:'black'}}>groups!</h1>
+                                            </Center>
+                                                {isPinShownLibWest && (
+                                                    <Button style={{ position: 'absolute', left: '51vw', top: '11.5vh', height: 'calc(2vh + 2vw)', backgroundColor: 'rgba(0,0,0,0.0)', borderColor: 'rgba(0,0,0,0.0)', cursor: 'pointer' }} onClick={() => setIsShownLibWest(true)} ><img src={pinSmall} /></Button>
+                                                )}
+                                                {isPinShownPlaza && (
+                                                    <Button style={{ position: 'absolute', left: '52vw', top: '30vh', height: 'calc(2vh + 2vw)', backgroundColor: 'rgba(0,0,0,0.0)', borderColor: 'rgba(0,0,0,0.0)', cursor: 'pointer' }} onClick={() => setIsShownPlaza(true)}><img src={pinSmall} /></Button>
+                                                )}
+                                                {(isPinShownComputer &&
+                                                    <Button style={{ position: 'absolute', left: '67.2vw', top: '86vh', height: 'calc(2vh + 2vw)', backgroundColor: 'rgba(0,0,0,0.0)', borderColor: 'rgba(0,0,0,0.0)', cursor: 'pointer' }} onClick={() => setIsShownComputer(true)}><img src={pinSmall} /></Button>
+                                                )}
+                                                {(isPinShownMarston &&
+                                                    <Button style={{ position: 'absolute', left: '44vw', top: '74vh', height: 'calc(2vh + 2vw)', backgroundColor: 'rgba(0,0,0,0.0)', borderColor: 'rgba(0,0,0,0.0)', cursor: 'pointer' }} onClick={() => setIsShownMarston(true)}><img src={pinSmall} /></Button>
+                                                )}
+                                                {(isPinShownLawn &&
+                                                    <Button style={{ position: 'absolute', left: '32vw', top: '82vh', height: 'calc(2vh + 2vw)', backgroundColor: 'rgba(0,0,0,0.0)', borderColor: 'rgba(0,0,0,0.0)', cursor: 'pointer' }} onClick={() => setIsShownLawn(true)}><img src={pinSmall} /></Button>
+                                                )}
+                                                {(isPinShownNewell &&
+                                                    <Button style={{ position: 'absolute', left: '35vw', top: '52vh', height: 'calc(2vh + 2vw)', backgroundColor: 'rgba(0,0,0,0.0)', borderColor: 'rgba(0,0,0,0.0)', cursor: 'pointer' }} onClick={() => setIsShownNewell(true)}><img src={pinSmall} /></Button>
+                                                )}
+                                            {isShownLibWest && (<div style={{ position: 'absolute', zIndex: '1000', left: '20vw', top: '2vh' }}>
+                                                <Button className='buttonCool' onClick={onCloseListClickLibWest} style={{ borderColor: '#000000', position: 'absolute', left: '28vw', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)', fontSize:'calc(0.5vh + 0.5vw)' }}>Close</Button>
+                                                    <FixedSizeList
+                                                        height={250}
+                                                        width='27vw'
+                                                        itemSize={136}
+                                                        itemCount={currentStudentsLibWest.length}
+                                                        className="list-container"
+                                                        cursor= 'default'
+                                                    >
+                                                        {RowLibWest}
+                                                    </FixedSizeList>
+                                                <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '18vw', top: '-1vh', height: '250px', width: '6vw', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                                                {isShownGroupChosen &&
+                                                        <div className='rectangleGroup' style={{ position:'absolute', left:'28vw', top: '6vh', width:'12vw' }}>
+                                                            <h1 style={{ fontSize:'1.8vw', textAlign:'center', color:'black' }}>Group Joined Successfully!</h1>
+                                                        </div>
+                                                }
+                                            </div>)}
 
-                        {isShownPlaza && (<div style={{ position: 'absolute', zIndex: '1000', left: '50vh', top: '17vh' }}>
-                            <Button className='buttonCool' onClick={onCloseListClickPlaza} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
-                            <FixedSizeList
-                                height={250}
-                                width={517}
-                                itemSize={136}
-                                itemCount={currentStudentsPlaza.length}
-                                className="list-container"
-                            >
-                                {RowPlaza}
-                            </FixedSizeList>
-                            <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
-                            {isShownGroupChosen &&
-                                <div className='chooseGroupRect'>
-                                    <div className='chooseGroupText' style={{ left: '41vh', top: '-21vh' }}>
-                                        <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
-                                    </div>
-                                </div>
-                            }
-                        </div>)}
+                                            {isShownPlaza && (<div style={{ position: 'absolute', zIndex: '1000', left: '50vh', top: '17vh' }}>
+                                                <Button className='buttonCool' onClick={onCloseListClickPlaza} style={{ borderColor: '#000000', position: 'absolute', left: '28vw', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)', fontSize:'calc(0.5vh + 0.5vw)'  }}>Close</Button>
+                                                <FixedSizeList
+                                                    height={250}
+                                                    width='27vw'
+                                                    itemSize={136}
+                                                    itemCount={currentStudentsPlaza.length}
+                                                    className="list-container"
+                                                >
+                                                    {RowPlaza}
+                                                </FixedSizeList>
+                                                <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '18vw', top: '-1vh', height: '250px', width: '6vw', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                                                {isShownGroupChosen &&
+                                                        <div className='rectangleGroup' style={{ position:'absolute', left: '28vw', top: '10vh', width:'12vw'  }}>
+                                                            <h1 style={{ fontSize:'1.8vw', textAlign:'center', color:'black' }}>Group Joined Successfully!</h1>
+                                                    </div>
+                                                }
+                                            </div>)}
 
-                        {isShownComputer && (<div style={{ position: 'absolute', zIndex: '1000', left: '83vh', top: '45vh' }}>
-                            <Button className='buttonCool' onClick={onCloseListClickComputer} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
-                            <FixedSizeList
-                                height={250}
-                                width={517}
-                                itemSize={136}
-                                itemCount={currentStudentsComputer.length}
-                                className="list-container"
-                            >
-                                {RowComputer}
-                            </FixedSizeList>
-                            <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
-                            {isShownGroupChosen &&
-                                <div className='chooseGroupRect'>
-                                    <div className='chooseGroupText' style={{ left: '41vh', top: '-21vh' }}>
-                                        <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
-                                    </div>
-                                </div>
-                            }
-                        </div>)}
+                                            {isShownComputer && (<div style={{ position: 'absolute', zIndex: '1000', left: '83vh', top: '45vh' }}>
+                                                <Button className='buttonCool' onClick={onCloseListClickComputer} style={{ borderColor: '#000000', position: 'absolute', left: '28vw', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)', fontSize:'calc(0.5vh + 0.5vw)'  }}>Close</Button>
+                                                <FixedSizeList
+                                                    height={250}
+                                                    width='27vw'
+                                                    itemSize={136}
+                                                    itemCount={currentStudentsComputer.length}
+                                                    className="list-container"
+                                                >
+                                                    {RowComputer}
+                                                </FixedSizeList>
+                                                <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '18vw', top: '-1vh', height: '250px', width: '6vw', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                                                {isShownGroupChosen &&
+                                                        <div className='rectangleGroup' style={{ position:'absolute', left: '18vw', top: '-15vh', width:'12vw'  }}>
+                                                            <h1 style={{ fontSize:'1.8vw', textAlign:'center', color:'black' }}>Group Joined Successfully!</h1>
+                                                        </div>
+                                                }
+                                            </div>)}
 
-                        {isShownMarston && (<div style={{ position: 'absolute', zIndex: '1000', left: '37vh', top: '45vh' }}>
-                            <Button className='buttonCool' onClick={onCloseListClickMarston} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
-                            <FixedSizeList
-                                height={250}
-                                width={517}
-                                itemSize={136}
-                                itemCount={currentStudentsMarston.length}
-                                className="list-container"
-                            >
-                                {RowMarston}
-                            </FixedSizeList>
-                            <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
-                            {isShownGroupChosen &&
-                                <div className='chooseGroupRect'>
-                                    <div className='chooseGroupText' style={{ left: '41vh', top: '-21vh' }}>
-                                        <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
-                                    </div>
-                                </div>
-                            }
-                        </div>)}
+                                            {isShownMarston && (<div style={{ position: 'absolute', zIndex: '1000', left: '37vh', top: '45vh' }}>
+                                                <Button className='buttonCool' onClick={onCloseListClickMarston} style={{ borderColor: '#000000', position: 'absolute', left: '28vw', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)', fontSize:'calc(0.5vh + 0.5vw)'  }}>Close</Button>
+                                                <FixedSizeList
+                                                    height={250}
+                                                    width='27vw'
+                                                    itemSize={136}
+                                                    itemCount={currentStudentsMarston.length}
+                                                    className="list-container"
+                                                >
+                                                    {RowMarston}
+                                                </FixedSizeList>
+                                                <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '18vw', top: '-1vh', height: '250px', width: '6vw', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                                                {isShownGroupChosen &&
+                                                        <div className='rectangleGroup' style={{position:'absolute', left: '28vw', top: '10vh', width:'12vw'  }}>
+                                                            <h1 style={{ fontSize:'1.8vw', textAlign:'center', color:'black'}}>Group Joined Successfully!</h1>
+                                                        </div>
+                                                }
+                                            </div>)}
 
-                        {isShownNewell && (<div style={{ position: 'absolute', zIndex: '1000', left: '19vh', top: '22vh' }}>
-                            <Button className='buttonCool' onClick={onCloseListClickNewell} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
-                            <FixedSizeList
-                                height={250}
-                                width={517}
-                                itemSize={136}
-                                itemCount={currentStudentsNewell.length}
-                                className="list-container"
-                            >
-                                {RowNewell}
-                            </FixedSizeList>
-                            <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
-                            {isShownGroupChosen &&
-                                <div className='chooseGroupRect'>
-                                    <div className='chooseGroupText' style={{ left: '41vh', top: '-21vh' }}>
-                                        <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
-                                    </div>
-                                </div>
-                            }
-                        </div>)}
+                                            {isShownNewell && (<div style={{ position: 'absolute', zIndex: '1000', left: '19vh', top: '22vh' }}>
+                                                <Button className='buttonCool' onClick={onCloseListClickNewell} style={{ borderColor: '#000000', position: 'absolute', left: '28vw', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)', fontSize:'calc(0.5vh + 0.5vw)'  }}>Close</Button>
+                                                <FixedSizeList
+                                                    height={250}
+                                                    width='27vw'
+                                                    itemSize={136}
+                                                    itemCount={currentStudentsNewell.length}
+                                                    className="list-container"
+                                                >
+                                                    {RowNewell}
+                                                </FixedSizeList>
+                                                <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                                                {isShownGroupChosen &&
+                                                        <div className='rectangleGroup' style={{ position:'absolute', left: '28vw', top: '10vh', width:'12vw' }}>
+                                                            <h1 style={{ fontSize:'1.8vw', textAlign:'center', color:'black' }}>Group Joined Successfully!</h1>
+                                                        </div>
+                                                }
+                                            </div>)}
 
-                        {isShownLawn && (<div style={{ position: 'absolute', zIndex: '1000', left: '13vh', top: '43vh' }}>
-                            <Button className='buttonCool' onClick={onCloseListClickLawn} style={{ borderColor: '#000000', position: 'absolute', left: '53vh', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)' }}>Close</Button>
-                            <FixedSizeList
-                                height={250}
-                                width={517}
-                                itemSize={136}
-                                itemCount={currentStudentsLawn.length}
-                                className="list-container"
-                            >
-                                {RowLawn}
-                            </FixedSizeList>
-                            <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
-                            {isShownGroupChosen &&
-                                <div className='chooseGroupRect'>
-                                    <div className='chooseGroupText' style={{ left: '41vh', top: '-21vh' }}>
-                                        <h1 style={{ marginTop: '3vh' }}>Group Joined Successfully!</h1>
+                                            {isShownLawn && (<div style={{ position: 'absolute', zIndex: '1000', left: '13vh', top: '43vh' }}>
+                                                <Button className='buttonCool' onClick={onCloseListClickLawn} style={{ borderColor: '#000000', position: 'absolute', left: '28vw', top: '0vh', height: '3vh', width: '8vh', backgroundColor: 'rgb(255,0,0)', fontSize:'calc(0.5vh + 0.5vw)'  }}>Close</Button>
+                                                <FixedSizeList
+                                                    height={250}
+                                                    width='27vw'
+                                                    itemSize={136}
+                                                    itemCount={currentStudentsLawn.length}
+                                                    className="list-container"
+                                                >
+                                                    {RowLawn}
+                                                </FixedSizeList>
+                                                <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '38vh', top: '-1vh', height: '25.5vh', width: '10vh', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+                                                {isShownGroupChosen &&
+                                                        <div className='rectangleGroup' style={{  position:'absolute', left: '28vw', top: '10vh', width:'12vw'  }}>
+                                                            <h1 style={{ fontSize:'1.8vw', textAlign:'center', color:'black'}}>Group Joined Successfully!</h1>
+                                                        </div>
+                                                }
+                                            </div>)}
+                                        </a>
                                     </div>
-                                </div>
-                            }
-                        </div>)}
-
-                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     );

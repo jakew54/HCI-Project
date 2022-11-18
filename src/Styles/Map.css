@@ -69,8 +69,8 @@
 .headerMap{
   display: flex;
   align-items: center;
-  margin-left:  4.5vh;
-  margin-top: -7.75vh;
+  margin-left:  4.5vw;
+  margin-top: 0vh;
   font: 5vh Arial;
   font-weight: bold;
   -webkit-text-stroke-width: 2px;
@@ -78,29 +78,38 @@
   color: #FA4616;
 }
 
-.chooseGroupRect {
-  text-align: center;
-  left: 0;
-  right: 0;
- }
-
-.chooseGroupText {
-  position:relative;
-  width: 300px;
-  min-height: 60px;
-  margin: auto;
-  padding-top:15px;
+.rectangleGroup {
+  background:rgb(71, 235, 126);
+  border: solid rgb(0, 0, 0);
+  border-radius: 1vw;
 }
 
-.chooseGroupText:before {
-  content:'';
+table {
+  width: 80vw;
+  border:none;
+}
+
+.style1 {
+  text-align: left;
+  height: 100vh;
+}
+
+.bg {
+  position: relative;
+  width: 99%;
+  height: 100%;
+}
+
+.bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.bg .linkcontainer {
   position: absolute;
-  width: 250px;
-  height: 120px;
-  margin: auto;
-  z-index: -1;
-  border: 5px solid rgb(0,0,0);
-  background-color: rgb(71, 235, 126);
-  left:20px;
-  top:20px;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  width: 100%;
 }

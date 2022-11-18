@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Checkbox } from '@mantine/core';
+import { Checkbox, Text } from '@mantine/core';
 import { useListState, randomId } from '@mantine/hooks';
 import axios from 'axios';
 
@@ -11,6 +11,7 @@ const roles = ["Tutor", "Student", "Study-Buddy", "Expert", "Novice"];
 const StudyRole = () => {
   const navigate = useNavigate();
   const [selectedRoles, setSelectedRoles] = useState([]);
+  const [isApplied, setIsApplied] = useState(false);
 
   const handleRequest = useCallback(async () => {
     if (selectedRoles.length > 0) {
@@ -20,7 +21,7 @@ const StudyRole = () => {
        });
        url.search = searchParams.toString();
        const response = await axios.get(url);
-       navigate("/Filters");
+       setIsApplied(true);
        }
    }, [selectedRoles]);
 
@@ -54,7 +55,11 @@ const StudyRole = () => {
         {options}
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '15vh' }}>
-        <Button onClick={handleRequest}>Apply and return to Filters</Button>
+      <Button style={{marginLeft:'1vw', marginTop:'3vh'}} onClick={handleRequest}>Apply</Button>
+          {isApplied && (
+            <Text style={{position:'absolute', marginLeft:'-8vw', marginTop:'-2.5vh', color:'green'}}>Applied!</Text>
+          )}
+        <Button style={{marginLeft:'1vw', marginTop:'3vh'}} onClick={() => navigate("/Filters")}>Return to Filters</Button>
       </div>
     </div>
   );

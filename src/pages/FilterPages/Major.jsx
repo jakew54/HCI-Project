@@ -11,6 +11,7 @@ const majors = ["Computer Science", "Math", "Biology", "Political Science", "Che
 const Major = () => {
   const navigate = useNavigate();
   const [majorName, setMajorName] = useState('');
+  const [isApplied, setIsApplied] = useState(false);
 
   const handleReq = useCallback(async () => {
     if (majorName.length > 0) {
@@ -21,7 +22,7 @@ const Major = () => {
        url.search = searchParams.toString();
        const response = await axios.get(url);
        console.log(response.data);
-       navigate("/Filters");
+       setIsApplied(true);
        }
    }, [majorName]);
 
@@ -34,11 +35,14 @@ const Major = () => {
           <Autocomplete label="Major" placeholder="Enter your major" data={majors} 
           value={majorName}
           onChange={setMajorName} />
+          <Button style={{marginLeft:'1vw', marginTop:'3vh'}} onClick={handleReq}>Apply</Button>
+          {isApplied && (
+            <Text style={{position:'absolute', marginLeft:'10.8vw', marginTop:'-2.5vh', color:'green'}}>Applied!</Text>
+          )}
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '7vh' }}>
-        <Button onClick={handleReq}>Apply and return to filters</Button>
+        <Button style={{marginLeft:'1vw'}} onClick={() => navigate("/Filters")}>Return to Filters</Button>
       </div>
-      <ToastContainer />
     </div>
   );
 };

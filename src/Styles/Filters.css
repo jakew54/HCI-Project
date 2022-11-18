@@ -55,7 +55,7 @@ ul.a {
 }
 
 .chooseGroupText:before {
-  content: 'Group Joined Successfully!';
+  content: '';
   position: absolute;
   width: 15vw;
   height: 15vh;

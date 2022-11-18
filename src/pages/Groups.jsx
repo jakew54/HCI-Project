@@ -9,6 +9,7 @@ import axios from 'axios';
 import ListComponent from '../component/ListComponent';
 import RowComponent from '../component/RowComponent';
 import gator from '../Styles/uf_gator_groups.png';
+import { AutoSizer } from 'react-virtualized';
 
 
 const Groups = () => {
@@ -49,20 +50,20 @@ const Groups = () => {
 
     return (
         <>
-            <div className="headerFilters">
-                <h1 style={{ fontSize: '54px' }}>There are {currGroupNum} that match your preferences!</h1>
+            <div className="headerFilters" style={{heigt:'100vh', widht:'100vw'}}>
+                <h1 style={{ fontSize: 'calc(2vh + 2vw)' }}>There are {currGroupNum} that match your preferences!</h1>
             </div>
-            <div style={{marginLeft: '5vh', height: 'auto' }}>
-                <FixedSizeList
-                    height={650} //650
-                    width="60vw"
-                    itemSize={207} //207
-                    itemCount={currentStudents.length}
-                    className="list-container"
-                >
-                    {Row}
-                </FixedSizeList>
-                <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '42.5vw', top: '28vh', height: '66.7vh', width: '9vw', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
+            <div style={{marginLeft: '5vh', height: '70%' }}>
+                    <FixedSizeList
+                        height={650} //650
+                        width='60vw'
+                        itemSize={207} //207
+                        itemCount={currentStudents.length}
+                        className="list-container"
+                    >
+                        {Row}
+                    </FixedSizeList>
+                <Button className='buttonCool' onClick={() => setIsShownGroupChosen(true)} style={{ borderColor: '#000000', position: 'absolute', left: '42vw', top: '31vh', height: '650px', width: '7vw', backgroundColor: 'rgba(255,0,0,0)', borderColor: 'rgba(255,0,0,0)' }}></Button>
                 {isShownGroupChosen &&
                     <div className='rectangleGroup' style={{position:'absolute', left:'64vw', top:'44vh', width:'15vw'}}>
                         <h1 style={{fontSize:'1.8vw', textAlign:'center'}}>Group Joined Successfully!</h1>
