@@ -1,13 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { RangeSlider, Button, Container } from '@mantine/core';
+import { RangeSlider, Container, Text } from '@mantine/core';
 import axios from 'axios';
 
 const MARKS = [
-  { value: 0 },
-  { value: 1 },
   { value: 2 },
   { value: 3 },
   { value: 4 },
@@ -22,8 +21,9 @@ const MARKS = [
 
 const GroupSize = () => {
   const navigate = useNavigate();
+  const [isApplied, setIsApplied] = useState(false);
 
-  const [rangeValue, setRangeValue] = useState([0, 10]);
+  const [rangeValue, setRangeValue] = useState([2, 10]);
 
   const handleReq = useCallback(async () => {
     if (rangeValue.length === 2) {
@@ -35,7 +35,7 @@ const GroupSize = () => {
       url.search = searchParams.toString();
       const response = await axios.get(url);
       console.log(response.data);
-      navigate("/Filters");
+      setIsApplied(true);
     }
   }, [rangeValue]);
 
@@ -45,12 +45,16 @@ const GroupSize = () => {
         <h1> Enter desired group size </h1>
       </div>
       <Container size={400}>
-        <RangeSlider max={10} minRange={1} marks={MARKS} value={rangeValue} onChange={setRangeValue}
+        <RangeSlider min={2} max={10} minRange={1} marks={MARKS} value={rangeValue} onChange={setRangeValue}
           step={1} styles={{ markLabel: { display: 'none' } }}
           size='lg' width='50%' />
       </Container>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
-        <Button onClick={() => handleReq()}>Apply and return to Filters</Button>
+      <Button style={{marginLeft:'1vw', marginTop:'3vh'}} onClick={handleReq}>Apply</Button>
+          {isApplied && (
+            <Text style={{position:'absolute', marginLeft:'-8vw', marginTop:'-2.5vh', color:'green'}}>Applied!</Text>
+          )}
+        <Button style={{marginLeft:'1vw', marginTop:'3vh'}} onClick={() => navigate("/Filters")}>Return to Filters</Button>
       </div>
 
       <ToastContainer />
