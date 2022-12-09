@@ -1,31 +1,32 @@
 # Required Packages
-fastapi<br/>
-uvicorn<br/>
-jinja2<br/>
-yfinance<br/>
-sqlalchemy<br/>
-frontend packages:<br/>
-@emotion/react<br/>
-@emotion/styled<br/>
-@mantine/core<br/>
-@mantine/hooks<br/>
-@mui/icons-material<br/>
-@mui/material<br/>
-@testing-library/jest-dom<br/>
-@testing-library/react<br/>
-@testing-library/user-event<br/>
-axios<br/>
-react-bootstrap<br/>
-react-dom<br/>
-react-icons<br/>
-react-router-dom<br/>
-react-scripts<br/>
-react-toastify<br/>
-react-virtualized<br/>
-react-window<br/>
-react<br/>
-styled-components<br/>
-web-vitals<br/>
+Backend Packages:<br/>
+&emsp;fastapi<br/>
+&emsp;uvicorn<br/>
+&emsp;jinja2<br/>
+&emsp;yfinance<br/>
+&emsp;sqlalchemy<br/>
+Frontend Packages:<br/>
+&emsp;@emotion/react<br/>
+&emsp;@emotion/styled<br/>
+&emsp;@mantine/core<br/>
+&emsp;@mantine/hooks<br/>
+&emsp;@mui/icons-material<br/>
+&emsp;@mui/material<br/>
+&emsp;@testing-library/jest-dom<br/>
+&emsp;@testing-library/react<br/>
+&emsp;@testing-library/user-event<br/>
+&emsp;axios<br/>
+&emsp;react-bootstrap<br/>
+&emsp;react-dom<br/>
+&emsp;react-icons<br/>
+&emsp;react-router-dom<br/>
+&emsp;react-scripts<br/>
+&emsp;react-toastify<br/>
+&emsp;react-virtualized<br/>
+&emsp;react-window<br/>
+&emsp;react<br/>
+&emsp;styled-components<br/>
+&emsp;web-vitals<br/>
 
 How to run:<br/>
 (1) Run the main.py file<br/>
