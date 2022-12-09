@@ -1,39 +1,39 @@
-Required packeges:
-fastapi
-uvicorn
-jinja2
-yfinance
-sqlalchemy
-frontend packages:
-@emotion/react
-@emotion/styled
-@mantine/core
-@mantine/hooks
-@mui/icons-material
-@mui/material
-@testing-library/jest-dom
-@testing-library/react
-@testing-library/user-event
-axios
-react-bootstrap
-react-dom
-react-icons
-react-router-dom
-react-scripts
-react-toastify
-react-virtualized
-react-window
-react
-styled-components
-web-vitals
+# Required Packages
+fastapi<br/>
+uvicorn<br/>
+jinja2<br/>
+yfinance<br/>
+sqlalchemy<br/>
+frontend packages:<br/>
+@emotion/react<br/>
+@emotion/styled<br/>
+@mantine/core<br/>
+@mantine/hooks<br/>
+@mui/icons-material<br/>
+@mui/material<br/>
+@testing-library/jest-dom<br/>
+@testing-library/react<br/>
+@testing-library/user-event<br/>
+axios<br/>
+react-bootstrap<br/>
+react-dom<br/>
+react-icons<br/>
+react-router-dom<br/>
+react-scripts<br/>
+react-toastify<br/>
+react-virtualized<br/>
+react-window<br/>
+react<br/>
+styled-components<br/>
+web-vitals<br/>
 
-How to run:
-(1) Run the main.py file
-(2) Run in the terminal:
-  cd ./backend
-  uvicorn main:app --reload
-(3) Run in another terminal:
-  npm start
+How to run:<br/>
+(1) Run the main.py file<br/>
+(2) Run in the terminal:<br/>
+  &emsp;cd ./backend<br/>
+  &emsp;uvicorn main:app --reload<br/>
+(3) Run in another terminal:<br/>
+  &emsp;npm start<br/>
 
 
 
