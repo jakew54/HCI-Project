@@ -4,8 +4,28 @@ uvicorn
 jinja2
 yfinance
 sqlalchemy
---> Jake add here yours
-
+frontend packages:
+@emotion/react
+@emotion/styled
+@mantine/core
+@mantine/hooks
+@mui/icons-material
+@mui/material
+@testing-library/jest-dom
+@testing-library/react
+@testing-library/user-event
+axios
+react-bootstrap
+react-dom
+react-icons
+react-router-dom
+react-scripts
+react-toastify
+react-virtualized
+react-window
+react
+styled-components
+web-vitals
 
 How to run:
 (1) Run the main.py file
