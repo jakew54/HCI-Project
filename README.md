@@ -1,3 +1,26 @@
+Required packeges:
+fastapi
+uvicorn
+jinja2
+yfinance
+sqlalchemy
+--> Jake add here yours
+
+
+How to run:
+(1) Run the main.py file
+(2) Run in the terminal:
+  cd ./backend
+  uvicorn main:app --reload
+(3) Run in another terminal:
+  npm start
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
